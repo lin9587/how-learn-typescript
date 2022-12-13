@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        // 指定输出文件目录
+        "outDir": "./../dist",
+        // 指定编译版本
+        "target": "ES6",
+        // 实时监听文件的变化
+        "watch": true
+    },
+    // 指点需要编译的文件
+    "include": ["./../src/**/*"]
+}
