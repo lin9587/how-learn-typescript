@@ -198,10 +198,114 @@ if (ele) {
 在 `JavaScript` 中，有许多的内置对象，比如：Object、Array、Date......，我们可以通过对象 构造函数 或者类 来进行标注
 ```javascript
 let a: object = {}
-// 数组
+// 数组这里标注格式有点不太一样，后面我们在数组标注中进行详细讲解
+let arr: Array<number> = [1, 2, 3]
+let d1: Date = new Date()
 ```
+**自定义对象类型**
+另外一种情况下，许多时候，我们可能需要自定义结构的对象。这个时候，我们可以：
+- 字面量标注
+- 接口
+- 定义 类 或者 构造函数
+
+字面量标注：
+```javascript
+let a: { username: string, age: number } = {
+    username: 'lin',
+    age: 18
+}
+// ok
+a.username
+a.age
+// error
+a.gender
+```
+优点：方便、直接
+缺点：不利于复用和维护
+接口：
+```javascript
+// 这里使用了 interface 关键字，在后面的接口会详细说明
+interface Person {
+    username: string
+    age: number
+}
+let a: Person {
+    username: 'lin',
+    age: 18
+}
+// ok
+a.username
+a.age
+// error
+a.gender
+```
+优点：复用性高
+缺点：接口只能作为类型标注使用，不能作为具体值，它只是一种抽象的结构定义，并不是实体，没有具体功能实现
+
+类与构造函数：
+```javascript
+// 类的具体使用，也会在后面的说明
+class Person {
+    constructort(public username: string, public age: number) {
+
+    }
+}
+// ok
+a.username
+a.age
+// error
+a.gender
+```
+优点：功能相对强大，定义实体的同时也定义了对应的类型
+缺点：复杂，比如只想约束某个函数接收的参数结构，没有必要去定义一个类，使用接口会更简单
+```javascript
+interface AjaxOptions {
+    url: string;
+    method: string;
+}
+
+function ajax(options: AjaxOptions) {}
+
+ajax({
+    url: '',
+    method: 'get'
+})
+```
+**扩展**
+这里说的包装对象其实就是 `JavaScript` 中的 `String`、`Number`、`Boolean`，我们知道 `string` 类型和 `String` 类型并不一样，在 `TypeScript` 中也是一样
+```javascript 
+let a: string
+a = 'lin'
+// error String 有的， string不一定有（对象有的，基础类型不一定有）
+a = new String('lin')
+
+let b: String;
+b = new String('2')
+// ok 和上面正好相反
+b = '2'
+``` 
 
 ##### 数组类型
+`TypeScript` 中数组存储的类型必须一致，所以在标注数组类型的时候，同时要标注数组中存储的数据类型
+
+**使用泛型标注**
+```javascript
+// <number> 表示数组中存储的数据类型，泛型具体概念后续说
+let arr1: Array<number> = [];
+// ok
+arr1.push(100)
+// error
+arr1.push('lin')
+```
+**简单标注**
+```javascript
+let arr2: string[] = [];
+// ok
+arr2.push('lin')
+// error
+arr2.push(1)
+```
+
 ##### 元组类型
 ##### 枚举类型
 ##### 无值类型

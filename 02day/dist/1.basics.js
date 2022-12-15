@@ -1,3 +1,3 @@
-var title = 'lin';
-var num = 1;
-var isOk = true;
+// let title: string = 'lin'
+// let num: number = 1
+// let isOk: boolean = true

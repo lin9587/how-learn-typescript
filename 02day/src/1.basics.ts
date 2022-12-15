@@ -1,5 +1,5 @@
-let title: string = 'lin'
+// let title: string = 'lin'
 
-let num: number = 1
+// let num: number = 1
 
-let isOk: boolean = true
+// let isOk: boolean = true
