@@ -26,8 +26,8 @@ tsc -v
 ```
 #### 编写代码
 代码编辑器 - vocode
-`vscode` 和 `Typescript` 都是微软的产品，`vs code` 本身就是基于 `TypeScript` 进行开发的，`vs code` 对 `TypeScript` 有着天然的友好的支持
 [https://code.visualstudio.com/](https://code.visualstudio.com/)
+`vscode` 和 `Typescript` 都是微软的产品，`vs code` 本身就是基于 `TypeScript` 进行开发的，`vs code` 对 `TypeScript` 有着天然的友好的支持
 `TypeScript` 默认情况下，`TypeScript` 的文件的后缀为 `.ts`
 ```javascript
 // ./src/hellots.ts
@@ -307,8 +307,71 @@ arr2.push(1)
 ```
 
 ##### 元组类型
+元组类似数组，但是存储的元素类型不必相同，但是需要注意：
+- 初始化数据的个人以及对应位置标注类型必须一致
+- 越界数据必须是元组标注中的类型之一（标注越界数据可以不用对应顺序 - 联合类型）
+```javascript
+let data1: [string, number] = ['lin', 12]
+// ok
+data1.push(100)
+// ok
+data1.push('li')
+// error
+data1.push(true)
+```
+
 ##### 枚举类型
+枚举的作用组织收集一组关联数据的方式，通过枚举我们可以给一组有关联意义的数据赋予一些友好的名字
+```javascript
+enum HTTP_CODE {
+    OK = 200,
+    NOT_FOUND = 404,
+    METHOD_NOT_ALLOWEO
+};
+// 200
+HTTP_CODE.OK;
+// 405
+HTTP_CODE.METHOD_NOT_ALLOWEO
+// error
+HTTP_CODE.OK = 1
+```
+注意事项：
+- key 不能是数字
+- value 可以是数字，称为 数字类型枚举，也可以是字符串，称为 字符串类型枚举，但不能是其他值，默认为数字：0
+- 枚举值可以省略，如果省略，则：
+    * 第一个枚举值默认为：0
+    * 非第一个枚举值为上一个数字枚举值 + 1
+- 枚举值为只读（常量），初始化后不能修改
+
+**字符串类型枚举**
+枚举类型的值，也可以是字符串类型
+```javascript
+enum URLS {
+    USER_REGISETER = '/user/register',
+    USER_LOGIN = '/user/login',
+    // 如果前一个枚举值类型为字符串，则后续枚举项必须手动赋值
+    INDEX = 0
+}
+```
+注意：如果前一个枚举值类型为字符串，则后续枚举项必须手动赋值
+
+> 小技巧：枚举名称可以是大小，也可以是小写，推荐使用全大写（通常使用全大写的命名方式来标注值为常量）
+
 ##### 无值类型
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ##### Never类型
 ##### 任意类型
 ##### 未知类型
