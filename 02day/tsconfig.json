@@ -3,7 +3,10 @@
         "outDir": "./dist",
         "target": "es5",
         "watch": true,
-        "strictNullChecks": true
+        // 严格检测
+        "strictNullChecks": true,
+        // 隐性控制
+        "noImplicitAny": true
     },
     "include": ["./src/**/*"]
 }

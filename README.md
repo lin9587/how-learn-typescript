@@ -359,23 +359,58 @@ enum URLS {
 
 ##### 无值类型
 
+表示没有任何数据的类型，通常用于标注无返回值函数的返回值类型，函数默认标注类型为：void
 
-
-
-
-
-
-
-
-
-
-
-
+```javascript
+function fn():void {
+    // 没有 return 或者 return undefined
+}
+```
+> 在 `strictNullChecks` 为 `false` 的情况下，`undefined` 和 `null` 都可以复制给 `void`，但是当 `strictNullChecks` 为 `true` 的情况下，只有 `undefined` 才可以复制给 `void`
 
 ##### Never类型
+
+当一个函数永远不可能执行 `return` 的时候，返回就是 `never`，与 `void` 不同，`void` 是执行了 `return`，只是没有值，`never` 是不会执行 `return`，比如抛出错误，导致函数终止执行
+```javascript
+function fn(): never {
+    throw new Error('error')
+}
+```
+
 ##### 任意类型
+
+有时候，我们并不确定这个值到底是什么类型或者不需要对该值进行类型检测，就可以标注为 `any` 类型
+```javascript
+let a: any
+```
+- 一个变量申明未赋值且未标注类型的情况下，默认为 `any` 类型
+- 任何类型值都可以赋值给 `any` 类型
+- `any` 类型也可以赋值给任意类型
+- `any` 类型有任意属性和方法
+
+注意：标注为 `any` 类型，也意味着放弃对该值的类型检测，同时放弃 IDE 的智能提示
+
+> 小技巧：当指定 `noImplicitAny` 配置为 `true`，当函数参数出现隐含的 `any` 类型时报错
+
 ##### 未知类型
+
+unknow，3.0 版本中新增，属于安全版的 any，但是与 any 不同的是：
+- unknow 仅能赋值给 unknow、any
+- unknow 没有任何属性和方法
+
 ##### 函数类型
+
+在 JavaScript 函数是非常重要的、在 TypeScript 也是如此。同样的，函数也有自己的类型标注格式
+- 参数
+- 返回值
+
+`函数名称( 参数1：类型，参数2：类型...): 返回值类型；`
+```javascript
+function add(x: number, y: number): number {
+    return x + y
+}
+```
+
 
 
 
