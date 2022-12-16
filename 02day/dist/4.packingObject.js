@@ -1,6 +1,6 @@
-var a;
-a = 'lin';
-a = new string('1');
-var b;
-b = new String('lin');
-b = 'lin';
+// let a: string;
+// a = 'lin';
+// a = new string('1');
+// let b: String;
+// b = new String('lin');
+// b = 'lin'
