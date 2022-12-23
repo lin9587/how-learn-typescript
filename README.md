@@ -440,7 +440,72 @@ let p1: Point = {
 
 ##### 可选属性
 
-接口也可以定义可选的属性，通过?.来进行标注
+接口也可以定义可选的属性，通过?来进行标注
+```javascript
+interface Point {
+    x: number;
+    y: number;
+    color?: string
+}
+```
+其中的 color? 表示该属性是可选的
+
+##### 只读属性
+
+我们还可以通过 readonly 来标注属性为只读
+```javascript
+interface Point {
+    readonly x: number;
+    readonly y: number;
+}
+```
+当我们标注了一个属性为只读，那么该属性除了初始化以外，这个属性不能再次赋值的
+
+##### 任意属性
+
+有的时候，我们希望给一个接口添加任意属性，可以通过索引类型来实现
+
+数字类型索引
+```javascript
+interface Point {
+    x: number;
+    y: number;
+    [prop: number]: number;
+}
+```
+字符串类型索引
+```javascript
+interface Point {
+    x: number;
+    y: number;
+    [prop: string]: number;
+}
+```
+数字索引是字符串索引的子类型
+
+> 注意：索引签名参数类型必须为 string 或 number 之一，但两者可同时出现
+```javascript
+interface Point {
+    [prop1: string]: string;
+    [prop2: number]: string;
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### 04day
 > 函数详情
