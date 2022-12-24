@@ -490,7 +490,30 @@ interface Point {
     [prop2: number]: string;
 }
 ```
+> 注意：当同时存在数字类型索引和字符串类型索引的时候，数字类型的值类型必须是字符串类型的值类型或子类型
+```javascript
+interface Point1 {
+    [prop1: string]: string;
+    [prop2: number]: number; // 错误
+}
+interface Point2 {
+    [prop1: string]: Object;
+    [prop2: number]: Date; // 正确
+}
+```
 
+#### 使用接口描述函数
+
+我们还可以使用接口描述一个函数
+```javascript
+interface IFunc {
+    (a: string): string;
+}
+let fn: IFunc = function(a) {}
+```
+> 注意，如果使用接口来单独描述一个函数
+
+ 
 
 
 
