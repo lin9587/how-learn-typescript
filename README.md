@@ -511,9 +511,45 @@ interface IFunc {
 }
 let fn: IFunc = function(a) {}
 ```
-> 注意，如果使用接口来单独描述一个函数
+> 注意，如果使用接口来单独描述一个函数，是没 key 的
 
- 
+#### 接口合并
+
+多个同名的接口合并成一个接口
+```javascript
+interface Box {
+    height: number;
+    width: number;
+}
+interface Box {
+    scale: number;
+}
+
+let box: Box = {height: 5, width: 6, scale: 10}
+```
+- 如果合并的接口存在同名的非函数成员，则必须保证他们类型一致，否则编译报错
+- 接口中的同名函数则是采用重载（后期函数说明）
+
+### 04day 高级类型
+---
+
+#### 联合类型
+
+联合类型也可以称为多选类型，当我们希望标注一个变量为多个类型之一时可以选择联合类型标注，或 的关系
+```javascript
+function css(ele: Element, attr: string, value: string | number) {
+    // ...
+}
+
+let box = document.querySelector('.box')
+// document.querySelector 方法返回值就是一个联合类型
+if(box) {
+    // ts 会提示 null 的可能性，加上判断更严谨
+    css(box, 'width', '100px');
+    css(box, 'opacity', 1);
+    css(box, 'opacity', [1,3]); // 错误
+}
+```
 
 
 

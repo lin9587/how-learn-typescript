@@ -38,12 +38,60 @@ interface IFunc {
 // function f1(x: number, y: number): number {
 //     return x + y;
 // }
-let fn1: IFunc = function(a: number, b: number): number {
-    return a + b;
-}
+// let fn1: IFunc = function(a: number, b: number): number {
+//     return a + b;
+// }
+// let fn2: IFunc = function(a: number, b: number): number {
+//     return a + b;
+// }
+
+// function todo(callback: IFunc) {
+//     // ...
+//     let v = callback(1, 2)
+//     //
+// }
+
+// todo( function(a: number, b: number): number {
+//     return a * b
+// } )
 
 
 
+// interface IEventFunc {
+//     (e: MouseEvent): void
+// }
+
+// function on(el: HTMLElement, evname: string, callback: IEventFunc) {
+
+// }
+
+// let div = document.querySelector('div')
+// if(div) {
+//     on(div, 'click', function(e) {
+//         e.clientX
+//     })
+// }
+
+
+
+// interface Box {
+//     height: number;
+//     width: number;
+//     fn(a: string): string;
+// }
+// interface Box {
+//     scale: number;
+//     fn(a: number): number;
+// }
+
+// let box: Box = {
+//     height: 5,
+//     width: 6, 
+//     scale: 10,
+//     fn: function(a: number): number {
+//         return a
+//     }
+// }
 
 
 
