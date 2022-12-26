@@ -551,6 +551,143 @@ if(box) {
 }
 ```
 
+#### 交叉类型
+
+交叉类型也可以称为合并类型，可以把多种类型合并到一起成为一种的类型，并且 的关系
+
+对一个对象进行扩展：
+```javascript
+interface o1 { x: number, y: string };
+interface o2 { z: number };
+
+let o:o1 & o2 = Object.assign({}, {x: 1, y: '2'}, {z: 100})
+```
+**小技巧**
+
+> TypeScript 在编译过程中只会转换语法（比如扩展运算符，箭头函数等语法进行转换，对于 API 是不会进行转换的 （也没必要转换，而是引入一些扩展库进行处理的），如果我们的代码中使用了 target 中没有的 API，则需要手动引入，默认情况下 TypeScript 会根据 target 载入核心的类型库）
+
+target 为 es5 时：["dom", "es5", "scripthost"]
+
+target 为 es6 时：["dom", "es6", "dom.iterable", "scripthost"]
+
+如果代码中使用了这些默认载入库以外的代码，则可以通过 lib 选项来进行设置
+
+
+#### 字面量类型
+
+有的时候，希望标注的不是某个类型，而是一个固定值，就可以使用字面量类型，配合联合类型会更有用
+```javascript
+function setPositiom(ele: Element, direction: 'left' | 'top' | 'right' | 'bottom') {
+    // ...
+}
+
+// ok
+box && setPosition(box, 'bottom')
+// error
+box && setDirection(box, 'lin')
+```
+
+#### 类型别名
+
+有的时候类型标注比较复杂，这个时候我们就可以类型标注起一个相对简单的名字
+```javascript
+type dir = 'left' | 'top' | 'right' | 'bottom';
+function setPosition(ele: Element, direction: dir) {
+    // ...
+}
+```
+
+**使用类型别名定义函数类型**
+
+这里需要注意一下，如果使用 type 来定义函数类型，和接口有点不太相同
+```javascript
+type callback = (a: string) => string;
+let fn: callback = function(a) {};
+
+// 或者直接
+let fn: (a: string) => string = function(a) {}
+```
+
+**interface 与 type 的区别**
+
+interface
+- 只能描述 Object/class/function 的类型
+- 同名 interface 自动合并，利于扩展
+
+type
+- 不能重名
+- 能描述所有数据
+
+
+#### 类型推导
+
+每次都显示标注类型会比较麻烦，typescript 提供了一种更加方便的特性：类型推导。typescript 编译器会根据当前上下文自动的推导出对应的类型标注，这个过程发生在：
+- 初始化变量
+- 设置函数默认参数值
+- 返回函数值
+```javascript
+// 自动推断 x 为 number
+let x = 1;
+// 不能将类型"a" 分配给类型"number"
+x = 'a';
+
+// 函数参数类型、函数返回值会根据对应的默认值和返回值进行自动推断
+function fn(a = 1) {return a * a}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

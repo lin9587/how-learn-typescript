@@ -6,7 +6,9 @@
         // 严格检测
         "strictNullChecks": true,
         // 隐性any控制
-        "noImplicitAny": true
+        "noImplicitAny": true,
+        // 手动载入需要用到的第三方库
+        "lib": ["ES6", "DOM"]
     },
     "include": ["./src/**/*"]
 }
