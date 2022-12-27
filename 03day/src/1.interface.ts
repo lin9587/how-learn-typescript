@@ -29,9 +29,9 @@
 // p1.z = 100
 
 
-interface IFunc {
-    (x: number, y: number): number
-}
+// interface IFunc {
+//     (x: number, y: number): number
+// }
 // function f1(x: number, y: number): number {
 //     return x + y;
 // }

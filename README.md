@@ -651,92 +651,22 @@ let image = document.querySelector('#img') as HTMLImageElement;
 ```
 > 注意： 断言只是一种预判，并不会数据本身产生实际的作用，即：类似转换，但并非真的转换了
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### 04day
-> 函数详情
-
+### 04day 函数详情
+---
+#### 函数的标注
+
+一个函数的标注
+- 参数
+- 返回值
+```javascript
+function fn(a: string): string {};
+let fn: (a: string) => string = function(a) {}
+
+type callback = (a: string): string;
+interface ICallback {
+    (a: string): string;
+}
+
+let fn: callback = function(a) {};
+let fn: ICallback = function(a) {};
+```

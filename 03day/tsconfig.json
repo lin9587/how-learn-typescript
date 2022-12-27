@@ -1,12 +1,14 @@
 {
     "compilerOptions": {
         "outDir": "./dist",
-        "target": "es6",
+        "target": "es5",
         "watch": true,
         // 严格检测
         "strictNullChecks": true,
-        // 隐性控制
-        "noImplicitAny": true
+        // 隐性any控制
+        "noImplicitAny": true,
+        // 手动载入需要用到的第三方库
+        "lib": ["ES6", "DOM"]
     },
     "include": ["./src/**/*"]
 }
