@@ -635,6 +635,40 @@ x = 'a';
 function fn(a = 1) {return a * a}
 ```
 
+#### 类型断言
+
+有的时候，我们可能标注一个更加精确的类型（缩小类型标注范围），比如：
+```javascript
+let img = document.querySelector('#img');
+```
+我们可以看到 img 的类型为 Element，而 Element 类型其实只是元素类型的通用类型，如果我们去访问 src 这个属性是有问题的，我们需要把它的类型标注得更为精确：HTMLImageElement 类型，这个时候，我们就可以使用类型断言，它类似于一种 类型转换：
+```javascript
+let img = <HTMLImageElement> document.querySelector('#img');
+```
+或者
+```javascript
+let image = document.querySelector('#img') as HTMLImageElement;
+```
+> 注意： 断言只是一种预判，并不会数据本身产生实际的作用，即：类似转换，但并非真的转换了
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
