@@ -670,3 +670,11 @@ interface ICallback {
 let fn: callback = function(a) {};
 let fn: ICallback = function(a) {};
 ```
+
+##### 可选参数和默认参数
+
+- 可选参数
+通过参数名后面添加 `?` 来标注该参数可选的
+```javascript
+
+```
