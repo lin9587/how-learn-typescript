@@ -780,7 +780,7 @@ let obj2: T = {
 
 有的时候，同一个函数会接收不同类型的参数返回不同类型的返回值，我们可以使用函数重载来实现，通过下面的例子体会一下函数重载
 ```typescript
-function showOrHide(el: HTMLElement, attr: string, value: 'block' | 'none' | number) {
+function showOrHide(el: HTMLElement, attr: 'display' | 'opacity', value: 'block' | 'none' | number) {
     // ...
 }
 
@@ -800,8 +800,173 @@ function showOrHide(el: HTMLElement, attr: 'opacity', value: number);
 function showOrHide(el: HTMLElement, attr: string, value: any) {
     el.style[attr] = value;
 }
-
-
 ```
+
+重载函数类型只需要定义结构，不需要实体，类似接口
+```typescript
+interface PlainObject {
+    [key: string]: string | number;
+}
+
+function css(el: HTMLElement, attr: PlainObject);
+function css(el: HTMLElement, attr: string, value: string | number);
+function css(el: HTMLElement, attr: any, value?: any) {
+    if(typeof attr === 'string' && value) {
+        el.style[attr] = value;
+    }
+    if(typeof attr === 'object') {
+        for(let key in attr) {
+            el.style[attr] = attr[key];
+        }
+    }
+}
+
+let div = document.querySelector('div');
+if (div) {
+    css( div, 'width', '100px' );
+    css( div, {
+        width: '100px'
+    } )
+
+    // error，如果不使用重载，这里就会有问题了
+    css(div, 'width')
+}
+```
+
+### 05day 面向对象
+
+#### 类
+
+面相对象编程中一个重要的核心就是：`类`，当我们使用面向对象的方式进行编程的时候，通常会首先去分析具体要实现的功能，把特性相似的抽象成一个一个的类，然后通过这些类实例化出来的具体对象来完成具体业务需求。
+
+##### 类的基础
+
+在类的基础中，包含下面几个核心的知识点，也是 `typescript` 与 `ECMAScript2015+` 在类方面共有的一些特性
+
+- `class` 关键字
+- 构造函数：`constructor`
+- 成员属性定义
+- 成员方法
+- this 关键字
+
+除了以上的共同特性以外，在 `TypeScript` 中还有许多 `ECMAScript` 没有的，或当前还不支持的一些特性，如：抽象
+
+##### class
+
+通过 `class` 就可以描述和组织一个类的结构，语法：
+```javascript
+// 通常类的名称我们会使用 大驼峰命名， 规则，也就是（单词）首字母大写
+class User {
+    // 类的特征都定义在 {} 内部
+}
+```
+
+##### 构造函数
+
+通过 `class` 定义了一个类以后，我们可以通过 `new` 关键字来调用该类从而得到该类型的一个具体对象：也就是实例化。
+
+为什么类可以像函数一样去调用呢，其实我们执行的并不是这个类，而是类中包含的一个特殊函数：构造函数 - `constructor`
+```javascript
+class User {
+    constructor() {
+        console.log('实例化...')
+    }
+}
+let user1 = new User;
+```
+- 默认情况下，构造函数是一个空函数
+- 构造函数会在类被实例化的时候调用
+- 我们定义的构造函数会覆盖默认构造函数
+- 如果在实例化 (new) 一个类的时候无需传入参数，则可以省略 `()`
+- 构造函数 `constructor` 不允许有 `retrun` 和返回值类型标注得 (因为要返回实例对象)
+
+通常情况下，我们会把一个类实例化的时候的初始化相关代码写在构造函数中，比如对类成员属性的初始化赋值
+
+##### 成员属性与方法定义
+
+```javascript
+class User {
+    id: number;
+    username: string;
+
+    constructor(id: number, username: string) {
+        this.id = id;
+        this.username = username;
+    }
+
+    postArticle(title: string, content: string): void {
+        console.log(`发表了一篇文章：${title}`)
+    }
+}
+
+let user1 = new User(1, 'lin');
+let user2 = new User(1, 'li');
+```
+
+##### this 关键字
+
+在类内部，我们可以通过 `this` 关键字来访问类的成员属性和方法
+```typescript
+class User {
+    id: number;
+    username: string;
+
+    postArticle(title: string, content: string): void {
+        // 在类的内部可以通过 this 来访问成员属性和方法
+        console.log(`${this.username} 发表了一篇文章:${title}`)
+    }
+}
+```
+
+##### 构造函数参数属性
+
+因为在构造函数中对类成员属性进行传参赋值初始化是一个比较常见的场景，所以 `ts` 提供了一个简化操作：给构造函数参数添加修饰符来直接生成成员属性
+
+- `public` 就是类的默认修饰符，表示该成员可以在任何地方进行读写操作
+
+```typescript
+class User {
+    // id: number;
+    // username: string;
+
+    constructor(
+        public id: number,
+        public username: string
+    ) {
+        // this.id = id;
+        // this.username = username;
+    }
+
+    postArticle(title: string, content: string) {
+        console.log(this.username, '这是一遍文章', title, content);
+    }
+}
+```
+
+#### 继承
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
