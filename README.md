@@ -676,5 +676,132 @@ let fn: ICallback = function(a) {};
 - 可选参数
 通过参数名后面添加 `?` 来标注该参数可选的
 ```javascript
+let div = document.querySelector('div');
+function css(el: HTMLElement, attr: string, val?: string) {
+
+}
+// 设置
+div && css( div, 'width', '100px' );
+// 获取
+div && css( div, 'width' );
+```
+
+- 默认参数
+我们还可以给参数设置默认值
+
+- 有默认值的参数也是可选的
+- 设置了默认值的参数可以根据值自动推导类型
+```typescript
+function sort(items: Array<number>, order = 'desc') {}
+
+sort([1,2,3]);
+
+// 也可以通过联合类型来限制取值
+funtion sort(items: Array<number>, order: 'desc' | 'asc' = 'desc') {}
+// ok
+sort([1,2,3]);
+// ok
+sort([1,2,3], 'asc');
+// error
+sort([1,2,3], 'abc');
+```
+
+- 剩余参数
+剩余参数是一个数组，所以标注的时候一定要注意
+```typescript
+interface IObj {
+    [key: string]: any;
+}
+function merge(target: IObj, ...others: Array<IObj>) {
+    return others.reduce( (prev, currnet) => {
+        prev = Object.assign(prev, currnet);
+        return prev
+    }, target );
+}
+let newObj = merge({x: 1}, {y: 2}, {z: 3})
+```
+
+#### 函数中的this
+
+无论是 `javascript` 还是 `TypeScript`，函数中的 `this` 都是我们需要关心的，那函数中的 `this` 的类型该如何进行标注呢？
+
+1.普通函数
+
+2.箭头函数
+
+- 普通函数
+
+对于普通函数而言，`this` 是会随着调用环境的变化而变化的，所以默认情况下，普通函数中的 `this` 被标注为 `any`，但我们可以在函数的第一个参数位（它不占据实际参数位置）上显示的标注 `this` 的类型
+```typescript
+interface T {
+    a: number;
+    fn: (x: number) => void
+}
+
+let obj1: T = {
+    a: 1,
+    fn(x: number) {
+        // any类型
+        console.log(this);
+    }
+}
+
+let obj2: T = {
+    a: 1,
+    fn(this: T, x: number) {
+        // 通过第一个参数位标注 this 的类型，它对实际参数不会有影响
+        console.log(this)
+    }
+}
+obj2.fn(1)
+```
+
+- 箭头函数
+
+箭头函数的 `this` 不能像普通函数那样进行标注，属于它所在的作用域 `this` 的标注类型
+```typescript
+interface T {
+    a: number;
+    fn: (x: number) => void;
+}
+
+let obj2: T = {
+    a: 1,
+    fn(this: T, x: number) {
+        return () => {
+            // this T
+            console.log(this)
+        }
+    }
+}
+```
+
+#### 函数重载
+
+有的时候，同一个函数会接收不同类型的参数返回不同类型的返回值，我们可以使用函数重载来实现，通过下面的例子体会一下函数重载
+```typescript
+function showOrHide(el: HTMLElement, attr: string, value: 'block' | 'none' | number) {
+    // ...
+}
+
+let div = document.querySelector('div');
+
+if (div) {
+    showOrHide( div, 'display', 'none' );
+    showOrHide( div, 'opacity', 1 );
+    // error，这里是有问题，虽然通过联合类型能够处理同时接收不同类型的参数，但是多个参数之间是一种组合的模式，我们需要的应该是一种对应的关系
+    showOrHide( div, 'display', 1 );
+}
+```
+我们来看一下函数重载
+```typescript
+function showOrHide(el: HTMLElement, attr: 'display', value: 'block' | 'none');
+function showOrHide(el: HTMLElement, attr: 'opacity', value: number);
+function showOrHide(el: HTMLElement, attr: string, value: any) {
+    el.style[attr] = value;
+}
+
 
 ```
+
+
