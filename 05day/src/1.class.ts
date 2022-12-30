@@ -26,32 +26,32 @@
 //     }
 // }
 
-class User {
-    // id: number;
-    // username: string;
+// class User {
+//     // id: number;
+//     // username: string;
 
-    /**
-     * 当我们给构造函数参数设置了访问修饰符：public，那么ts会做如下两件事
-     * - 给当前类添加同名的成员属性
-     * - 在类的实例化的时候，会把传入的参数值赋值给对应的成员属性
-     */
-    constructor(
-        public id: number,
-        public username: string
-    ) {
-        // this.id = id; 
-        // this.username = username;
-    }
+//     /**
+//      * 当我们给构造函数参数设置了访问修饰符：public，那么ts会做如下两件事
+//      * - 给当前类添加同名的成员属性
+//      * - 在类的实例化的时候，会把传入的参数值赋值给对应的成员属性
+//      */
+//     constructor(
+//         public id: number,
+//         public username: string
+//     ) {
+//         // this.id = id; 
+//         // this.username = username;
+//     }
 
-    postArticle(title: string, content: string) {
-        console.log(this.username, '这是一遍文章', title, content);
-    }
-}
+//     postArticle(title: string, content: string) {
+//         console.log(this.username, '这是一遍文章', title, content);
+//     }
+// }
 
 
-let user1 = new User(1, 'lin');
-console.log(user1);
-user1.postArticle('li', '1')
+// let user1 = new User(1, 'lin');
+// console.log(user1);
+// user1.postArticle('li', '1')
 
 
 
