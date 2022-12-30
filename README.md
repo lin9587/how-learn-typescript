@@ -945,7 +945,139 @@ class User {
 
 #### 继承
 
+在 `ts` 中，也是通过 `extends` 关键字类实现类的继承
 
+```javascript
+class VIP extends User {
+
+}
+```
+
+#### super 关键字
+
+在子类中，我们可以通过 `super` 来引用父类
+
+- 如果子类没有重写构造函数，则会在默认的 `constructor` 中调用 `super()`
+- 如果子类有自己的构造函数，则需要在子类构造函数中显示的调用父类构造函数：`super(//参数)`，否则会报错
+- 在子类构造函数中只有在 `super(//参数)` 之后才能访问 `this`
+- 在子类中，可以通过 `super` 来访问父类的成员属性和方法
+- 通过 `super` 访问父类的同时，会自动绑定上下文对象为当前子类 `this`
+
+```typescript
+class VIP extends User {
+
+    constructor(
+        id: number,
+        username: string,
+        public score = 0
+    ) {
+        super(id, username)
+    }   
+
+    postAttrachment(file: string): void {
+        console.log(`${this.username} 上传了一个附件；${file}`)
+    }
+
+}
+
+let vip1 = new VIP(1, 'lin');
+vip1.postArticle('标题', '内容');
+vip1.postAttrachment('1.png');
+```
+
+#### 方法的重写与重载
+
+默认情况下，子类成员方法集成自父类，但是子类也可以对它们进行重写和重载
+
+```typescript
+class VIP extends User {
+
+    constructor(
+        id: number,
+        username: string,
+        public score = 0
+    ) {
+        super(id, username)
+    }
+
+    // 参数个数，参数类型不同: 重载
+    postArticle(title: string, content: string): void;
+    postArticle(title: string, content: string, file: string): void;
+    postArticle(title: string, content: string, file?: stringj): void {
+        super.postArticle(title, content);
+
+        if(file) {
+            this.postAttachment(file);
+        }
+    }
+
+    postAttachment(file: string): void {
+        console.log(`${this.username} 上传了一个附件: ${file}`)
+    }
+}
+
+// 使用场景
+let vip1 = new VIP(1, 'lin');
+vip1.postArticle('标题', '内容');
+vip1.postArticle('标题', '内容', '1.png');
+```
+
+#### 修饰符
+
+有的时候，我们希望对类成员（属性、方法）进行一定的访问控制，来保证数据的安装，通过 `类修饰符` 可以做到这一点，目前 TypeScript 提供了四种修饰符:
+
+- public: 公有，默认
+- protected: 受保护
+- private: 私有
+- readonly: 只读
+
+#### public 修饰符
+
+这个是类成员的默认修饰符，它的访问级别为:
+- 自身
+- 子类
+- 类外
+
+
+#### protected 修饰符
+
+它的访问级别为:
+- 自身
+- 子类
+
+#### private 修饰符
+
+它的访问级别为:
+- 自身
+
+#### readonly 修饰符
+
+只读修饰符只能针对成员属性使用，且必须在声明时或构造函数里被初始化，它的访问级别为:
+
+- 自身
+- 子类
+- 类外
+
+```typescript
+class User {
+
+    constructor(
+        // 可以访问，但是一旦确定不能修改
+        readonly id: number,
+        // 可以访问，但是不能外部修改
+        protected username: string,
+        // 外部包括子类不能访问，也不可修改
+        private password: string
+
+    ) {
+        // ...
+    }
+
+    // ...
+}
+
+let user1 = new User(1, 'lin', '123')
+```
 
 
 
