@@ -105,12 +105,14 @@ tsc -p ./config/ts.json
 - 编码规范、有利于团队开发协作、也更有利于大型项目开发、项目重构
 - 配合IDE、编辑器提供了更强大的代码只能提示/检查
 - 代码即文档
+
 缺点
 - 麻烦
 - 缺少灵活性
 ##### 动态类型语言
 优点
 - 静态类型语言的缺点
+
 缺点
 - 静态类型语言的优点
 
@@ -221,7 +223,9 @@ a.age
 a.gender
 ```
 优点：方便、直接
+
 缺点：不利于复用和维护
+
 接口：
 ```javascript
 // 这里使用了 interface 关键字，在后面的接口会详细说明
@@ -240,6 +244,7 @@ a.age
 a.gender
 ```
 优点：复用性高
+
 缺点：接口只能作为类型标注使用，不能作为具体值，它只是一种抽象的结构定义，并不是实体，没有具体功能实现
 
 类与构造函数：
@@ -257,6 +262,7 @@ a.age
 a.gender
 ```
 优点：功能相对强大，定义实体的同时也定义了对应的类型
+
 缺点：复杂，比如只想约束某个函数接收的参数结构，没有必要去定义一个类，使用接口会更简单
 ```javascript
 interface AjaxOptions {
@@ -1079,9 +1085,66 @@ class User {
 let user1 = new User(1, 'lin', '123')
 ```
 
+#### 寄存器
 
+有的时候，我们需要对类成员 `属性` 进行更加细腻的控制，就可以使用 `寄存器` 来完成这个需求，通过 `寄存器`，我们可以对类成员属性的访问进行拦截并加以控制，更好的控制成员属性的设置和访问边界，寄存器分为两种:
 
+- getter
+- setter
 
+#### getter
+
+访问控制器，当访问指定成员属性时调用
+
+#### setter - 组件
+
+- 函数式组件
+- 类式组件
+- props 与 state
+- 组件通信
+- 表单与受控组件
+
+设置控制器，当设置指定成员属性时调用
+
+```javascript
+class User {
+
+    constructor(
+        // 外部包括子类不能访问，也不可修改
+        provate _password: string
+    ) {
+
+    }
+
+    set password(password: string) {
+        if(password.length >= 6) {
+            this._password = password
+        }
+    }
+
+    get password():string {
+        return '****'
+    }
+
+}
+```
+
+#### 静态成员
+
+前面说的是成员属性和方法都是实例对象的，但是有的时候，我们需要给类本身添加成员，区分某成员是静态还是实例的:
+
+- 该成员属性或方法是类型的特征还是实例化对象的特征
+- 如果一个成员方法中没有使用或依赖 `this`，那么该方法就是静态的
+
+```typescript
+type IAllowFileTypeList = 'png' | 'gif' | 'jpg' | 'jpeg'| 'webp';
+
+class VIP extends User {
+    
+    // static 必须在 readonly 之前
+    static
+}
+```
 
 
 
