@@ -1142,21 +1142,138 @@ type IAllowFileTypeList = 'png' | 'gif' | 'jpg' | 'jpeg'| 'webp';
 class VIP extends User {
     
     // static 必须在 readonly 之前
-    static
+    static readonly ALLOW_FILE_TYPE_LIST: Array<IAllowFileTypeList> = ['png', 'gif', 'jpg', 'jpeg', 'webp'];
+
+    constructor(
+        id: number,
+        username: string,
+            private _allowFileTypes: array<iallow_file_type_list>
+    ) {
+        super(id, username);
+    }
+
+    static  info(): void {
+        // 类的静态成员都是使用 类名.静态成员 来访问
+        // VIP 这种类型的用户允许上传的所有类型有哪一些
+        console.log(VIP.ALLOW_FILE_TYPE_LIST);
+        // 当前这个 vip 用户允许上传类型有哪一些
+        // console.log(this._allowFileType);
+    }
+}
+
+let user1 = new User(1, 'lin', ['png', 'gif']);
+User.ALLOW_FILE_TYPE_LIST;
+User.info();
+```
+
+#### 抽象类
+
+有的时候，一个基类（父类）的一些方法无法确定具体的行为，而是由继承的子类去实现，看下面的例子：
+
+现在前端比较流行组件化设计，比如 `react`
+
+```tsx
+class MyComponent extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {}
+    }
+
+    render() {
+        // ...
+    }
+
 }
 ```
 
+根据上面代码，我们可以大致设计如下结构
 
+- 每个组件都一个 `props` 属性， 可以通过构造函数进行初始化，有父级定义
+- 每个组件都一个 `state` 属性， 由父级定义
+- 每个组件都必须有一个 `render` 的方法
 
+```tsx
+class Component<T1, T2> {
 
+    public state: T2;
 
+    construtor(
+        public props: T1
+    ) {
+        // ...     
+    } 
 
+    render(): string {
+        // ... 不知道做点才好， 但是为了避免子类没有 render 方法而导致组件解析错误，父类就用一个默认的 render 去处理可能会出现错误的
+    }
 
+}
 
+interface IMyComponentProps {
+    title: string;
+}   
 
+interface IMyComponentState {
+    val: number
+}
 
+class MyComponent extends Component<IMyComponentProps, IMyComponentProps> {
 
+    constructor(
+        props: IMyComponentProps
+    ) {
+        super(props);
 
+        this.state = {
+            val: 1
+        }
+    }
+
+    render() {
+        this.props.title;
+        this.state.val;
+        return `<div>组件</div>`
+    }
+}
+```
+
+上面的代码虽然从功能上讲没什么太大问题，但是可以看到，父类的 `render` 有点尴尬，其实我们更应该从代码层面上去约束子类必须得有 `render` 方法，否则编码就不能通过
+
+#### abstract 关键字
+
+如果一个方法没有具体的实现方法，则可以通过 abstract 关键字进行修饰
+
+```tsx
+abstract class Component<T1, T2> {
+    
+    public state: T2;
+
+    constructor(
+        public props: T1
+    ) {
+        // ...
+    }
+
+    public abstract render(): string;
+}
+```
+
+使用抽象类有一个好处：
+
+约定了所以继承子类的所必须实现的方法，使类的设计更加的规范
+
+使用注意事项：
+
+> - abstract 修饰的方法不能有方法体 
+> - 如果一个类有抽象方法，那么该类也必须为抽象的
+> - 如果一个类是抽象的，那么就不能使用 new 进行实例化（因为抽象类表明该类有未实现的方法，所以不允许实例化）
+
+#### 类与接口
+
+在前面我们已经学习了接口的使用，通过接口，我们可以为对象定义一种结构和契约。我们还可以把接口与类进行结合，通过接口，让类去强制符合某种契约，从某个方面来说，当一个抽象类中只有抽象的时候，它就与接口没有太大区别了，这个时候，我们更推荐通过接口的方式来定义契约
+
+- 抽象类编译后还是会产生实体代码，而接口不会
 
 
 
