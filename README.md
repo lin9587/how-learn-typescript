@@ -1,4 +1,4 @@
-# 7dayTypeScript
+7dayTypeScript
 
 ## 01day TypeScript初体验-环境搭建与编译执行
 
@@ -10,7 +10,7 @@ TypeScript 编写的程序并不能直接通过浏览器运行，我们需要先
 TypeScript 的编译器是基于 Node.js 的，所以我们需要先安装 Node.js
 ```
 
-（2） 安装 `Node.js`
+（2）安装 `Node.js`
 
 [https://nodejs.org](https://nodejs.org)
 安装完成以后，可以通过 `终端` 或者 `cmd` 等命令工具来调佣 `node`
@@ -41,34 +41,34 @@ tsc -v
 和 `Typescript` 都是微软的产品，`vs code` 本身就是基于 `TypeScript` 进行开发的，`vs code` 对 `TypeScript` 有着天然的友好的支持
 `TypeScript` 默认情况下，`TypeScript` 的文件的后缀为 `.ts`
 
-```javascript
+```typescript
 // ./src/hellots.ts
 let str: string = 'lin'
 ```
 
-（5） 编译执行
+（5）编译执行
 
 使用我们安装的 `TypeScript` 编译器 `tsc` 对 `.ts` 文件进行编译
 
-```javascript
+```typescript
 tsc ./src/hellots.ts
 ```
 
 默认情况下会在当前文件所在目录下生成同名的js文件
 
-（6） 一些有用的编译选项
+（6）一些有用的编译选项
 
 编译命令 `tsc` 还支持许多编译选项，这里是几个较为常用的
 
 --outDir 指定编译文件输出目录
 
-```bash
+```typescript
 tsc --outDir ./dist ./src/hellots.ts
 ```
 
 --target 指定编译的代码版本目标，默认为 `ES3`
 
-```bash
+```typescript
 tsc --ourDir ./dist --target ES6 ./src/hellots.ts
 ```
 
@@ -80,7 +80,7 @@ tsc --outDir ./dist --target ES6 --watch ./src/hellots.ts
 
 如果每次编译都输入这么一大堆的选项其实是很繁琐的，好在 `TypeScript` 编译为我们提供了一个更加强大且方便的方式，编译配置文件：`tsconfig.json` ，我们可以把上门的编译选项保存到这个配置文件中
 
-（7） 编译配置文件
+（7）编译配置文件
 
 我们可以把编译的一些选项保存在一个指定的 `json` 文件中，默认情况下 `tsc` 命令运行的时候会自动去加载运行命令所在的目录下的 `tsconfig.json` 文件，配置文件格式如下
 
@@ -103,71 +103,99 @@ tsc --outDir ./dist --target ES6 --watch ./src/hellots.ts
 
 使用 `--project` 或 `-p` 指定配置文件目录，会默认加载该目录下的 `tsconfig.json` 文件
 
-```bash
+```typescript
 tsc -p ./configs
 ```
 
 也可以指定某个具体的配置文件
 
-```bash
+```typescript
 tsc -p ./config/ts.json
 ```
 
 ## 02day 类型系统
 
-（1） 什么是类型
+（1）什么是类型
 
+```
 程序 = 数据结构 + 算法 = 各种格式的数据 + 处理数据的逻辑
+```
 
-（2） 数据是有格式（类型）的
+（2）数据是有格式（类型）的
 - 数字、布尔值、字符
 - 数组、集合
-##### 程序是可能出错的
+
+（3）程序是可能出错的
+
 - 计算错误（对非数字类型数据进行一些数学运算）
 - 调用一个不存在的方法
+
 > 不同类型的数据有不同的操作方式或方法，如：字符串类型的数据就不应该直接参与数学运算
-##### 动态类型语言 & 静态类型语言
-**动态类型语言**
-程序运行期间才做数据类型检查的语言，如：JavaScript
-**静态类型语言**
-程序编译期间做数据类型检查的语言，如：Java
-##### 静态类型语言的优缺点
-优点
-- 程序编译阶段（配合IDE\编辑器甚至可以在编码阶段）即可发现一些潜在错误，避免程序在生产环境运行了以后再出现错误
-- 编码规范、有利于团队开发协作、也更有利于大型项目开发、项目重构
-- 配合IDE、编辑器提供了更强大的代码只能提示/检查
-- 代码即文档
 
-缺点
-- 麻烦
-- 缺少灵活性
-##### 动态类型语言
-优点
-- 静态类型语言的缺点
+（4）动态类型语言 & 静态类型语言
 
-缺点
-- 静态类型语言的优点
+```
+动态类型语言 -> 程序运行期间才做数据类型检查的语言，如：JavaScript
+静态类型语言 -> 程序编译期间做数据类型检查的语言，如：Java
+```
+（5）静态类型语言的优缺点
 
-<font color="#58bc85"/>静态类型语言的核心：类型系统</font>
+- 优点
+    - 程序编译阶段（配合IDE\编辑器甚至可以在编码阶段）即可发现一些潜在错误，避免程序在生产环境运行了以后再出现错误
+    - 编码规范、有利于团队开发协作、也更有利于大型项目开发、项目重构
+    - 配合IDE、编辑器提供了更强大的代码只能提示/检查
+    - 代码即文档
 
-#### 什么是类型系统
+- 缺点
+    - 麻烦
+    - 缺少灵活性
+
+（6）动态类型语言
+
+- 优点
+    - 静态类型语言的缺点
+
+- 缺点
+    - 静态类型语言的优点
+
+> <font color="#58bc85"/>静态类型语言的核心：类型系统</font>
+
+### 什么是类型系统
+
 类型系统包含两个重要组成部分
+
 - 类型标注（定义、注解）- typing
 - 类型检测（检车）- type-checking
-##### 类型标注
-类型标注就是在代码中给数据（变量、函数（参数，返回值））添加类型说明，当一个变量或者函数（参数）等被标注以后就不能存储或传入与标注类型不符合的类型有了标注，`TypeScript` 编译器就能安装标注对这些数据进行类型合法检测。有了标注，各种编辑器、IDE等就能进行智能提示
-##### 类型检测
+
+（1）类型标注
+
+```
+类型标注就是在代码中给数据（变量、函数（参数，返回值））添加类型说明，当一个变量或者函数（参数）等被标注以后就不能存储或传入与标注类型不符合的类型有了标注，TypeScript 编译器就能安装标注对这些数据进行类型合法检测。有了标注，各种编辑器、IDE等就能进行智能提示
+```
+
+（2）类型检测
+
+```
 顾名思义，就是对数据的类型进行检测。注意这里，重点是类型两字。
+
 类型系统检测的是类型，不是具体的值（虽然，某些时候也可以检测值），比如某个参数的取值范围（1~100之间），我们不能依靠类型系统来完成这个检测，它应该是我们的业务层具体逻辑，类型系统检测的是它的值类型是否为数字！
-#### 类型标注
+```
+
+### 类型标注
+
 在 `TypeScript` 中，类型标注的基本语法格式为：
+
 ```javascript
 数据载体：类型
 ```
+
 `TypeScript` 的类型标注，我们可以分为
+
 - 基础的简单的类型标注
 - 高级的深入的类型标注
-#### 基础的简单的类型标注
+
+### 基础的简单的类型标注
+
 - 基础类型
 - 空和未定义类型
 - 对象类型
@@ -178,47 +206,63 @@ tsc -p ./config/ts.json
 - Never类型
 - 任意类型
 - 未知类型（Version3.0 added）
-##### 基础类型
+
+（1）基础类型
+
+```
 基础类型包含：string、number、boolean
+```
+
 标注语法：
-```javascript
+```typescript
 let title: string = 'lin'
 let n: number = 100
 let isOk: boolean = true
 ```
-##### 空和未定义类型
+
+（2）空和未定义类型
+
 因为在 `Null` 和 `Undefined` 这两种类型有且只有一个值，在标注一个变量为 `Null` 和 `Undefined` 类型，那就表示该变量不能修改了
-```javascript
+
+```typescript
 let a: null
 // ok
 a = null
 // error
 a = 1
 ```
+
 默认情况下 `null` 和 `undefined` 是所有类型的子类型。就是说你可以把 `null` 和 `undefined` 其他类型的变量
-```javascript
+
+```typescript
 let a: number
 // ok
 a = null
 ```
+
 如果一个变量声明了，但是未赋值，那么该变量的值为 `nudefined`，但是如果它同时也没有标注类型的话，默认类型为 `any`，`any` 类型后面有详细说明
-小技巧
-因为 `null` 和 `nudefined` 都是其它类型的子类型，所以默认情况喜爱会有一些隐藏的问题
-```javascript
+
+> 小技巧: 因为 `null` 和 `nudefined` 都是其它类型的子类型，所以默认情况下会有一些隐藏的问题
+
+```typescript
 let a: numder
 a = null
 // ok (实际运行是有问题的)
 a.toFixed(1)
 ```
+
 > 小技巧：指定 `strictNullChecks` 配置为 `true`，可以有效的检测 `null` 或者 `undefined`，避免很多常见问题
-```javascript
+
+```typescript
 let a: number
 a = null
 // error
 a.tofixed(1)
 ```
-> 也可以使我们程序编写更加严谨
-```javascript
+
+也可以使我们程序编写更加严谨
+
+```typescript
 let ele = document.querySelector('div')
 // 获取元素的方法返回的类型可能会包含null，所以最好是先进行必要的判断，再进行操作
 if (ele) {
@@ -226,23 +270,33 @@ if (ele) {
 }
 ```
 
-##### 对象类型
+（3）对象类型
 
-**内置对象**
-在 `JavaScript` 中，有许多的内置对象，比如：Object、Array、Date......，我们可以通过对象 构造函数 或者类 来进行标注
-```javascript
+1、内置对象
+
+- 在 `JavaScript` 中，有许多的内置对象，比如：Object、Array、Date......，我们可以通过对象 构造函数 或者类 来进行标注
+
+```typescript
 let a: object = {}
 // 数组这里标注格式有点不太一样，后面我们在数组标注中进行详细讲解
 let arr: Array<number> = [1, 2, 3]
 let d1: Date = new Date()
 ```
-**自定义对象类型**
-另外一种情况下，许多时候，我们可能需要自定义结构的对象。这个时候，我们可以：
-- 字面量标注
-- 接口
-- 定义 类 或者 构造函数
 
-字面量标注：
+2、自定义对象类型
+
+另外一种情况下，许多时候，我们可能需要自定义结构的对象。这个时候，我们可以：
+
+```
+字面量标注
+
+接口
+
+定义类或者构造函数
+```
+
+- 字面量标注：
+
 ```javascript
 let a: { username: string, age: number } = {
     username: 'lin',
@@ -258,8 +312,9 @@ a.gender
 
 缺点：不利于复用和维护
 
-接口：
-```javascript
+- 接口：
+
+```typescript
 // 这里使用了 interface 关键字，在后面的接口会详细说明
 interface Person {
     username: string
@@ -279,8 +334,9 @@ a.gender
 
 缺点：接口只能作为类型标注使用，不能作为具体值，它只是一种抽象的结构定义，并不是实体，没有具体功能实现
 
-类与构造函数：
-```javascript
+- 类与构造函数：
+
+```typescript
 // 类的具体使用，也会在后面的说明
 class Person {
     constructort(public username: string, public age: number) {
@@ -293,10 +349,12 @@ a.age
 // error
 a.gender
 ```
+
 优点：功能相对强大，定义实体的同时也定义了对应的类型
 
 缺点：复杂，比如只想约束某个函数接收的参数结构，没有必要去定义一个类，使用接口会更简单
-```javascript
+
+```typescript
 interface AjaxOptions {
     url: string;
     method: string;
@@ -309,9 +367,12 @@ ajax({
     method: 'get'
 })
 ```
-**扩展**
+
+- 扩展
+
 这里说的包装对象其实就是 `JavaScript` 中的 `String`、`Number`、`Boolean`，我们知道 `string` 类型和 `String` 类型并不一样，在 `TypeScript` 中也是一样
-```javascript 
+
+```typescript 
 let a: string
 a = 'lin'
 // error String 有的， string不一定有（对象有的，基础类型不一定有）
@@ -323,11 +384,13 @@ b = new String('2')
 b = '2'
 ``` 
 
-##### 数组类型
+（4）数组类型
+
 `TypeScript` 中数组存储的类型必须一致，所以在标注数组类型的时候，同时要标注数组中存储的数据类型
 
-**使用泛型标注**
-```javascript
+- 使用泛型标注
+
+```typescript
 // <number> 表示数组中存储的数据类型，泛型具体概念后续说
 let arr1: Array<number> = [];
 // ok
@@ -335,8 +398,10 @@ arr1.push(100)
 // error
 arr1.push('lin')
 ```
-**简单标注**
-```javascript
+
+- 简单标注
+
+```typescript
 let arr2: string[] = [];
 // ok
 arr2.push('lin')
@@ -344,11 +409,14 @@ arr2.push('lin')
 arr2.push(1)
 ```
 
-##### 元组类型
+（5）元组类型
+
 元组类似数组，但是存储的元素类型不必相同，但是需要注意：
+
 - 初始化数据的个人以及对应位置标注类型必须一致
 - 越界数据必须是元组标注中的类型之一（标注越界数据可以不用对应顺序 - 联合类型）
-```javascript
+
+```typescript
 let data1: [string, number] = ['lin', 12]
 // ok
 data1.push(100)
@@ -358,9 +426,11 @@ data1.push('li')
 data1.push(true)
 ```
 
-##### 枚举类型
+（6）枚举类型
+
 枚举的作用组织收集一组关联数据的方式，通过枚举我们可以给一组有关联意义的数据赋予一些友好的名字
-```javascript
+
+```typescript
 enum HTTP_CODE {
     OK = 200,
     NOT_FOUND = 404,
@@ -373,6 +443,7 @@ HTTP_CODE.METHOD_NOT_ALLOWEO
 // error
 HTTP_CODE.OK = 1
 ```
+
 注意事项：
 - key 不能是数字
 - value 可以是数字，称为 数字类型枚举，也可以是字符串，称为 字符串类型枚举，但不能是其他值，默认为数字：0
@@ -381,9 +452,11 @@ HTTP_CODE.OK = 1
     * 非第一个枚举值为上一个数字枚举值 + 1
 - 枚举值为只读（常量），初始化后不能修改
 
-**字符串类型枚举**
+1、字符串类型枚举
+
 枚举类型的值，也可以是字符串类型
-```javascript
+
+```typescript
 enum URLS {
     USER_REGISETER = '/user/register',
     USER_LOGIN = '/user/login',
@@ -391,36 +464,41 @@ enum URLS {
     INDEX = 0
 }
 ```
+
 注意：如果前一个枚举值类型为字符串，则后续枚举项必须手动赋值
 
 > 小技巧：枚举名称可以是大小，也可以是小写，推荐使用全大写（通常使用全大写的命名方式来标注值为常量）
 
-##### 无值类型
+（7）无值类型
 
 表示没有任何数据的类型，通常用于标注无返回值函数的返回值类型，函数默认标注类型为：void
 
-```javascript
+```typescript
 function fn():void {
     // 没有 return 或者 return undefined
 }
 ```
+
 > 在 `strictNullChecks` 为 `false` 的情况下，`undefined` 和 `null` 都可以复制给 `void`，但是当 `strictNullChecks` 为 `true` 的情况下，只有 `undefined` 才可以复制给 `void`
 
-##### Never类型
+（8）Never类型
 
 当一个函数永远不可能执行 `return` 的时候，返回就是 `never`，与 `void` 不同，`void` 是执行了 `return`，只是没有值，`never` 是不会执行 `return`，比如抛出错误，导致函数终止执行
-```javascript
+
+```typescript
 function fn(): never {
     throw new Error('error')
 }
 ```
 
-##### 任意类型
+（9）任意类型
 
 有时候，我们并不确定这个值到底是什么类型或者不需要对该值进行类型检测，就可以标注为 `any` 类型
-```javascript
+
+```typescript
 let a: any
 ```
+
 - 一个变量申明未赋值且未标注类型的情况下，默认为 `any` 类型
 - 任何类型值都可以赋值给 `any` 类型
 - `any` 类型也可以赋值给任意类型
@@ -430,19 +508,22 @@ let a: any
 
 > 小技巧：当指定 `noImplicitAny` 配置为 `true`，当函数参数出现隐含的 `any` 类型时报错
 
-##### 未知类型
+（10）未知类型
 
 unknow，3.0 版本中新增，属于安全版的 any，但是与 any 不同的是：
+
 - unknow 仅能赋值给 unknow、any
 - unknow 没有任何属性和方法
 
-##### 函数类型
+（11）函数类型
 
 在 JavaScript 函数是非常重要的、在 TypeScript 也是如此。同样的，函数也有自己的类型标注格式
+
 - 参数
 - 返回值
 
 `函数名称( 参数1：类型，参数2：类型...): 返回值类型；`
+
 ```javascript
 function add(x: number, y: number): number {
     return x + y
@@ -450,86 +531,102 @@ function add(x: number, y: number): number {
 ```
 
 ## 03day 高级类型与接口
----
 
-#### 接口定义
+（1）接口定义
 
+```
 前面我们说到，TypeScript 的核心之一就是对值（数据）所具有的结构进行类型检查，除了一些前面说到基本类型标注，针对对象类型的数据，除了前面提到的一些方式以外，我们还可以通过：Interface （接口），来进行标注。
 
 接口：对复杂的对象类型进行标注的一种方式，或者给其它代码定义一种契约（比如：类）
+```
 
 接口的基础语法定义结构特别简单
+
 ```typescript
 interface Point {
     x: number;
     y: number;
 }
 ```
+
 上面代码定义了一个类型，该类型包含两个属性，一个 number 类型 x 和一个 number 类型的 y，接口中多个属性之间可以使用 逗号 或者 分号 进行分隔
 
 我们可以通过这个接口类给一个数据进行标注
-```javascript
+
+```typescript
 let p1: Point = {
     x: 100,
     y: 100
 }
 ```
+
 > 注意：接口是一种 类型，不能作为 值 使用
 
-##### 可选属性
+- 可选属性
 
 接口也可以定义可选的属性，通过?来进行标注
-```javascript
+
+```typescript
 interface Point {
     x: number;
     y: number;
     color?: string
 }
 ```
+
 其中的 color? 表示该属性是可选的
 
-##### 只读属性
+- 只读属性
 
 我们还可以通过 readonly 来标注属性为只读
-```javascript
+
+```typescript
 interface Point {
     readonly x: number;
     readonly y: number;
 }
 ```
+
 当我们标注了一个属性为只读，那么该属性除了初始化以外，这个属性不能再次赋值的
 
-##### 任意属性
+- 任意属性
 
 有的时候，我们希望给一个接口添加任意属性，可以通过索引类型来实现
 
 数字类型索引
-```javascript
+
+```typescript
 interface Point {
     x: number;
     y: number;
     [prop: number]: number;
 }
 ```
+
 字符串类型索引
-```javascript
+
+```typescript
 interface Point {
     x: number;
     y: number;
     [prop: string]: number;
 }
 ```
+
 数字索引是字符串索引的子类型
 
 > 注意：索引签名参数类型必须为 string 或 number 之一，但两者可同时出现
-```javascript
+
+```typescript
 interface Point {
     [prop1: string]: string;
     [prop2: number]: string;
 }
 ```
+
 > 注意：当同时存在数字类型索引和字符串类型索引的时候，数字类型的值类型必须是字符串类型的值类型或子类型
-```javascript
+
+```typescript
 interface Point1 {
     [prop1: string]: string;
     [prop2: number]: number; // 错误
@@ -540,21 +637,24 @@ interface Point2 {
 }
 ```
 
-#### 使用接口描述函数
+（2）使用接口描述函数
 
 我们还可以使用接口描述一个函数
-```javascript
+
+```typescript
 interface IFunc {
     (a: string): string;
 }
 let fn: IFunc = function(a) {}
 ```
+
 > 注意，如果使用接口来单独描述一个函数，是没 key 的
 
-#### 接口合并
+（3）接口合并
 
 多个同名的接口合并成一个接口
-```javascript
+
+```typescript
 interface Box {
     height: number;
     width: number;
@@ -565,16 +665,17 @@ interface Box {
 
 let box: Box = {height: 5, width: 6, scale: 10}
 ```
+
 - 如果合并的接口存在同名的非函数成员，则必须保证他们类型一致，否则编译报错
 - 接口中的同名函数则是采用重载（后期函数说明）
 
 ## 04day 高级类型
----
 
-#### 联合类型
+（1）联合类型
 
-联合类型也可以称为多选类型，当我们希望标注一个变量为多个类型之一时可以选择联合类型标注，或 的关系
-```javascript
+联合类型也可以称为多选类型，当我们希望标注一个变量为多个类型之一时可以选择联合类型标注，`或` 的关系
+
+```typescript
 function css(ele: Element, attr: string, value: string | number) {
     // ...
 }
@@ -589,20 +690,20 @@ if(box) {
 }
 ```
 
-#### 交叉类型
+（2）交叉类型
 
 交叉类型也可以称为合并类型，可以把多种类型合并到一起成为一种的类型，并且 的关系
 
 对一个对象进行扩展：
-```javascript
+
+```typescript
 interface o1 { x: number, y: string };
 interface o2 { z: number };
 
 let o:o1 & o2 = Object.assign({}, {x: 1, y: '2'}, {z: 100})
 ```
-**小技巧**
 
-> TypeScript 在编译过程中只会转换语法（比如扩展运算符，箭头函数等语法进行转换，对于 API 是不会进行转换的 （也没必要转换，而是引入一些扩展库进行处理的），如果我们的代码中使用了 target 中没有的 API，则需要手动引入，默认情况下 TypeScript 会根据 target 载入核心的类型库）
+> 小技巧：TypeScript 在编译过程中只会转换语法（比如扩展运算符，箭头函数等语法进行转换，对于 API 是不会进行转换的 （也没必要转换，而是引入一些扩展库进行处理的），如果我们的代码中使用了 target 中没有的 API，则需要手动引入，默认情况下 TypeScript 会根据 target 载入核心的类型库）
 
 target 为 es5 时：["dom", "es5", "scripthost"]
 
@@ -611,10 +712,10 @@ target 为 es6 时：["dom", "es6", "dom.iterable", "scripthost"]
 如果代码中使用了这些默认载入库以外的代码，则可以通过 lib 选项来进行设置
 
 
-#### 字面量类型
+（3）字面量类型
 
 有的时候，希望标注的不是某个类型，而是一个固定值，就可以使用字面量类型，配合联合类型会更有用
-```javascript
+```typescript
 function setPositiom(ele: Element, direction: 'left' | 'top' | 'right' | 'bottom') {
     // ...
 }
@@ -625,20 +726,21 @@ box && setPosition(box, 'bottom')
 box && setDirection(box, 'lin')
 ```
 
-#### 类型别名
+（4）类型别名
 
 有的时候类型标注比较复杂，这个时候我们就可以类型标注起一个相对简单的名字
-```javascript
+```typescript
 type dir = 'left' | 'top' | 'right' | 'bottom';
 function setPosition(ele: Element, direction: dir) {
     // ...
 }
 ```
 
-**使用类型别名定义函数类型**
+- 使用类型别名定义函数类型
 
 这里需要注意一下，如果使用 type 来定义函数类型，和接口有点不太相同
-```javascript
+
+```typescript
 type callback = (a: string) => string;
 let fn: callback = function(a) {};
 
@@ -646,24 +748,23 @@ let fn: callback = function(a) {};
 let fn: (a: string) => string = function(a) {}
 ```
 
-**interface 与 type 的区别**
+- interface 与 type 的区别
+    - interface
+        - 只能描述 Object/class/function 的类型
+        - 同名 interface 自动合并，利于扩展
+    - type
+        - 不能重名
+        - 能描述所有数据
 
-interface
-- 只能描述 Object/class/function 的类型
-- 同名 interface 自动合并，利于扩展
-
-type
-- 不能重名
-- 能描述所有数据
-
-
-#### 类型推导
+（5）类型推导
 
 每次都显示标注类型会比较麻烦，typescript 提供了一种更加方便的特性：类型推导。typescript 编译器会根据当前上下文自动的推导出对应的类型标注，这个过程发生在：
+
 - 初始化变量
 - 设置函数默认参数值
 - 返回函数值
-```javascript
+
+```typescript
 // 自动推断 x 为 number
 let x = 1;
 // 不能将类型"a" 分配给类型"number"
@@ -673,30 +774,37 @@ x = 'a';
 function fn(a = 1) {return a * a}
 ```
 
-#### 类型断言
+（6）类型断言
 
 有的时候，我们可能标注一个更加精确的类型（缩小类型标注范围），比如：
-```javascript
+
+```typescript
 let img = document.querySelector('#img');
 ```
+
 我们可以看到 img 的类型为 Element，而 Element 类型其实只是元素类型的通用类型，如果我们去访问 src 这个属性是有问题的，我们需要把它的类型标注得更为精确：HTMLImageElement 类型，这个时候，我们就可以使用类型断言，它类似于一种 类型转换：
-```javascript
+
+```typescript
 let img = <HTMLImageElement> document.querySelector('#img');
 ```
+
 或者
-```javascript
+
+```typescript
 let image = document.querySelector('#img') as HTMLImageElement;
 ```
-> 注意： 断言只是一种预判，并不会数据本身产生实际的作用，即：类似转换，但并非真的转换了
 
-### 04day 函数详情
----
-#### 函数的标注
+注意： 断言只是一种预判，并不会数据本身产生实际的作用，即：类似转换，但并非真的转换了
+
+## 04day 函数详情
+
+（1）函数的标注
 
 一个函数的标注
 - 参数
 - 返回值
-```javascript
+
+```typescript
 function fn(a: string): string {};
 let fn: (a: string) => string = function(a) {}
 
@@ -709,11 +817,13 @@ let fn: callback = function(a) {};
 let fn: ICallback = function(a) {};
 ```
 
-##### 可选参数和默认参数
+（1）可选参数和默认参数、剩余参数
 
-- 可选参数
+1、可选参数
+
 通过参数名后面添加 `?` 来标注该参数可选的
-```javascript
+
+```typescript
 let div = document.querySelector('div');
 function css(el: HTMLElement, attr: string, val?: string) {
 
@@ -724,11 +834,13 @@ div && css( div, 'width', '100px' );
 div && css( div, 'width' );
 ```
 
-- 默认参数
+2、默认参数
+
 我们还可以给参数设置默认值
 
 - 有默认值的参数也是可选的
 - 设置了默认值的参数可以根据值自动推导类型
+
 ```typescript
 function sort(items: Array<number>, order = 'desc') {}
 
@@ -744,8 +856,10 @@ sort([1,2,3], 'asc');
 sort([1,2,3], 'abc');
 ```
 
-- 剩余参数
+3、剩余参数
+
 剩余参数是一个数组，所以标注的时候一定要注意
+
 ```typescript
 interface IObj {
     [key: string]: any;
@@ -759,17 +873,18 @@ function merge(target: IObj, ...others: Array<IObj>) {
 let newObj = merge({x: 1}, {y: 2}, {z: 3})
 ```
 
-#### 函数中的this
+（2）函数中的this
 
 无论是 `javascript` 还是 `TypeScript`，函数中的 `this` 都是我们需要关心的，那函数中的 `this` 的类型该如何进行标注呢？
 
-1.普通函数
-
-2.箭头函数
-
 - 普通函数
 
+- 箭头函数
+
+1、普通函数
+
 对于普通函数而言，`this` 是会随着调用环境的变化而变化的，所以默认情况下，普通函数中的 `this` 被标注为 `any`，但我们可以在函数的第一个参数位（它不占据实际参数位置）上显示的标注 `this` 的类型
+
 ```typescript
 interface T {
     a: number;
@@ -794,9 +909,10 @@ let obj2: T = {
 obj2.fn(1)
 ```
 
-- 箭头函数
+2、箭头函数
 
 箭头函数的 `this` 不能像普通函数那样进行标注，属于它所在的作用域 `this` 的标注类型
+
 ```typescript
 interface T {
     a: number;
@@ -814,9 +930,10 @@ let obj2: T = {
 }
 ```
 
-#### 函数重载
+（3）函数重载
 
 有的时候，同一个函数会接收不同类型的参数返回不同类型的返回值，我们可以使用函数重载来实现，通过下面的例子体会一下函数重载
+
 ```typescript
 function showOrHide(el: HTMLElement, attr: 'display' | 'opacity', value: 'block' | 'none' | number) {
     // ...
@@ -831,7 +948,9 @@ if (div) {
     showOrHide( div, 'display', 1 );
 }
 ```
-我们来看一下函数重载
+
+看一下函数重载
+
 ```typescript
 function showOrHide(el: HTMLElement, attr: 'display', value: 'block' | 'none');
 function showOrHide(el: HTMLElement, attr: 'opacity', value: number);
@@ -841,6 +960,7 @@ function showOrHide(el: HTMLElement, attr: string, value: any) {
 ```
 
 重载函数类型只需要定义结构，不需要实体，类似接口
+
 ```typescript
 interface PlainObject {
     [key: string]: string | number;
@@ -873,11 +993,11 @@ if (div) {
 
 ## 05day 面向对象
 
-#### 类
+（1）类
 
 面相对象编程中一个重要的核心就是：`类`，当我们使用面向对象的方式进行编程的时候，通常会首先去分析具体要实现的功能，把特性相似的抽象成一个一个的类，然后通过这些类实例化出来的具体对象来完成具体业务需求。
 
-##### 类的基础
+1、类的基础
 
 在类的基础中，包含下面几个核心的知识点，也是 `typescript` 与 `ECMAScript2015+` 在类方面共有的一些特性
 
@@ -889,9 +1009,10 @@ if (div) {
 
 除了以上的共同特性以外，在 `TypeScript` 中还有许多 `ECMAScript` 没有的，或当前还不支持的一些特性，如：抽象
 
-##### class
+2、class
 
 通过 `class` 就可以描述和组织一个类的结构，语法：
+
 ```javascript
 // 通常类的名称我们会使用 大驼峰命名， 规则，也就是（单词）首字母大写
 class User {
@@ -899,11 +1020,12 @@ class User {
 }
 ```
 
-##### 构造函数
+3、构造函数
 
 通过 `class` 定义了一个类以后，我们可以通过 `new` 关键字来调用该类从而得到该类型的一个具体对象：也就是实例化。
 
 为什么类可以像函数一样去调用呢，其实我们执行的并不是这个类，而是类中包含的一个特殊函数：构造函数 - `constructor`
+
 ```javascript
 class User {
     constructor() {
@@ -912,6 +1034,7 @@ class User {
 }
 let user1 = new User;
 ```
+
 - 默认情况下，构造函数是一个空函数
 - 构造函数会在类被实例化的时候调用
 - 我们定义的构造函数会覆盖默认构造函数
@@ -920,7 +1043,7 @@ let user1 = new User;
 
 通常情况下，我们会把一个类实例化的时候的初始化相关代码写在构造函数中，比如对类成员属性的初始化赋值
 
-##### 成员属性与方法定义
+4、成员属性与方法定义
 
 ```javascript
 class User {
@@ -941,9 +1064,10 @@ let user1 = new User(1, 'lin');
 let user2 = new User(1, 'li');
 ```
 
-##### this 关键字
+5、this 关键字
 
 在类内部，我们可以通过 `this` 关键字来访问类的成员属性和方法
+
 ```typescript
 class User {
     id: number;
@@ -956,11 +1080,11 @@ class User {
 }
 ```
 
-##### 构造函数参数属性
+6、构造函数参数属性
 
 因为在构造函数中对类成员属性进行传参赋值初始化是一个比较常见的场景，所以 `ts` 提供了一个简化操作：给构造函数参数添加修饰符来直接生成成员属性
 
-- `public` 就是类的默认修饰符，表示该成员可以在任何地方进行读写操作
+`public` 就是类的默认修饰符，表示该成员可以在任何地方进行读写操作
 
 ```typescript
 class User {
@@ -981,7 +1105,7 @@ class User {
 }
 ```
 
-#### 继承
+（2）继承
 
 在 `ts` 中，也是通过 `extends` 关键字类实现类的继承
 
@@ -991,7 +1115,7 @@ class VIP extends User {
 }
 ```
 
-#### super 关键字
+（3）super 关键字
 
 在子类中，我们可以通过 `super` 来引用父类
 
@@ -1023,7 +1147,7 @@ vip1.postArticle('标题', '内容');
 vip1.postAttrachment('1.png');
 ```
 
-#### 方法的重写与重载
+（4）方法的重写与重载
 
 默认情况下，子类成员方法集成自父类，但是子类也可以对它们进行重写和重载
 
@@ -1060,7 +1184,7 @@ vip1.postArticle('标题', '内容');
 vip1.postArticle('标题', '内容', '1.png');
 ```
 
-#### 修饰符
+（5）修饰符
 
 有的时候，我们希望对类成员（属性、方法）进行一定的访问控制，来保证数据的安装，通过 `类修饰符` 可以做到这一点，目前 TypeScript 提供了四种修饰符:
 
@@ -1069,26 +1193,29 @@ vip1.postArticle('标题', '内容', '1.png');
 - private: 私有
 - readonly: 只读
 
-#### public 修饰符
+1、public 修饰符
 
 这个是类成员的默认修饰符，它的访问级别为:
+
 - 自身
 - 子类
 - 类外
 
 
-#### protected 修饰符
+2、protected 修饰符
 
 它的访问级别为:
+
 - 自身
 - 子类
 
-#### private 修饰符
+3、private 修饰符
 
 它的访问级别为:
+
 - 自身
 
-#### readonly 修饰符
+4、readonly 修饰符
 
 只读修饰符只能针对成员属性使用，且必须在声明时或构造函数里被初始化，它的访问级别为:
 
@@ -1117,18 +1244,18 @@ class User {
 let user1 = new User(1, 'lin', '123')
 ```
 
-#### 寄存器
+（6）寄存器
 
 有的时候，我们需要对类成员 `属性` 进行更加细腻的控制，就可以使用 `寄存器` 来完成这个需求，通过 `寄存器`，我们可以对类成员属性的访问进行拦截并加以控制，更好的控制成员属性的设置和访问边界，寄存器分为两种:
 
 - getter
 - setter
 
-#### getter
+1、getter
 
 访问控制器，当访问指定成员属性时调用
 
-#### setter - 组件
+2、setter - 组件
 
 - 函数式组件
 - 类式组件
@@ -1138,7 +1265,7 @@ let user1 = new User(1, 'lin', '123')
 
 设置控制器，当设置指定成员属性时调用
 
-```javascript
+```typescript
 class User {
 
     constructor(
@@ -1161,7 +1288,7 @@ class User {
 }
 ```
 
-#### 静态成员
+（7）静态成员
 
 前面说的是成员属性和方法都是实例对象的，但是有的时候，我们需要给类本身添加成员，区分某成员是静态还是实例的:
 
@@ -1198,7 +1325,7 @@ User.ALLOW_FILE_TYPE_LIST;
 User.info();
 ```
 
-#### 抽象类
+（8）抽象类
 
 有的时候，一个基类（父类）的一些方法无法确定具体的行为，而是由继承的子类去实现，看下面的例子：
 
@@ -1272,7 +1399,7 @@ class MyComponent extends Component<IMyComponentProps, IMyComponentProps> {
 
 上面的代码虽然从功能上讲没什么太大问题，但是可以看到，父类的 `render` 有点尴尬，其实我们更应该从代码层面上去约束子类必须得有 `render` 方法，否则编码就不能通过
 
-#### abstract 关键字
+（9）abstract 关键字
 
 如果一个方法没有具体的实现方法，则可以通过 abstract 关键字进行修饰
 
@@ -1301,7 +1428,7 @@ abstract class Component<T1, T2> {
 > - 如果一个类有抽象方法，那么该类也必须为抽象的
 > - 如果一个类是抽象的，那么就不能使用 new 进行实例化（因为抽象类表明该类有未实现的方法，所以不允许实例化）
 
-#### 类与接口
+（10）类与接口
 
 在前面我们已经学习了接口的使用，通过接口，我们可以为对象定义一种结构和契约。我们还可以把接口与类进行结合，通过接口，让类去强制符合某种契约，从某个方面来说，当一个抽象类中只有抽象的时候，它就与接口没有太大区别了，这个时候，我们更推荐通过接口的方式来定义契约
 
