@@ -1,21 +1,28 @@
 # 7dayTypeScript
+
 one week to learn typescript
 
-### 01day TypeScript初体验-环境搭建与编译执行
----
-#### 环境搭建
+## 01day TypeScript初体验-环境搭建与编译执行
+
+（1）环境搭建
+
 `TypeScript` 编写的程序并不能直接通过浏览器运行，我们需要先通过 `TypeScript` 编译器把 `TypeScript` 代码编译成 `JavaScript`
 
 `TypeScript` 的编译器是基于 `Node.js` 的，所以我们需要先安装 `Node.js`
-#### 安装 `Node.js`
+
+(2) 安装 `Node.js`
+
 [https://nodejs.org](https://nodejs.org)
 安装完成以后，可以通过 `终端` 或者 `cmd` 等命令工具来调佣 `node`
 ```javascript
 # 查看当前 node 版本
 node -v
 ```
-#### 安装 `TypeScript` 编译
+
+(3) 安装 `TypeScript` 编译
+
 通过 `npm` 包管理工具安装 `TypeScript` 编译器
+
 ```javascript
 npm i -g typescript
 ```
@@ -83,7 +90,7 @@ tsc -p ./configs
 tsc -p ./config/ts.json
 ```
 
-### 02day 类型系统
+## 02day 类型系统
 ---
 #### 什么是类型
 程序 = 数据结构 + 算法 = 各种格式的数据 + 处理数据的逻辑
@@ -417,7 +424,7 @@ function add(x: number, y: number): number {
 }
 ```
 
-### 03day 高级类型与接口
+## 03day 高级类型与接口
 ---
 
 #### 接口定义
@@ -536,7 +543,7 @@ let box: Box = {height: 5, width: 6, scale: 10}
 - 如果合并的接口存在同名的非函数成员，则必须保证他们类型一致，否则编译报错
 - 接口中的同名函数则是采用重载（后期函数说明）
 
-### 04day 高级类型
+## 04day 高级类型
 ---
 
 #### 联合类型
@@ -839,7 +846,7 @@ if (div) {
 }
 ```
 
-### 05day 面向对象
+## 05day 面向对象
 
 #### 类
 
