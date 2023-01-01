@@ -274,7 +274,7 @@ if (ele) {
 
 1、内置对象
 
-- 在 `JavaScript` 中，有许多的内置对象，比如：Object、Array、Date......，我们可以通过对象 构造函数 或者类 来进行标注
+在 `JavaScript` 中，有许多的内置对象，比如：Object、Array、Date......，我们可以通过对象 构造函数 或者类 来进行标注
 
 ```typescript
 let a: object = {}
@@ -287,15 +287,11 @@ let d1: Date = new Date()
 
 另外一种情况下，许多时候，我们可能需要自定义结构的对象。这个时候，我们可以：
 
-```
-字面量标注
+- 字面量标注
+- 接口
+- 定义类或者构造函数
 
-接口
-
-定义类或者构造函数
-```
-
-- 字面量标注：
+1、字面量标注：
 
 ```javascript
 let a: { username: string, age: number } = {
@@ -312,7 +308,7 @@ a.gender
 
 缺点：不利于复用和维护
 
-- 接口：
+2、接口：
 
 ```typescript
 // 这里使用了 interface 关键字，在后面的接口会详细说明
@@ -334,7 +330,7 @@ a.gender
 
 缺点：接口只能作为类型标注使用，不能作为具体值，它只是一种抽象的结构定义，并不是实体，没有具体功能实现
 
-- 类与构造函数：
+3、类与构造函数：
 
 ```typescript
 // 类的具体使用，也会在后面的说明
@@ -368,7 +364,7 @@ ajax({
 })
 ```
 
-- 扩展
+4、扩展
 
 这里说的包装对象其实就是 `JavaScript` 中的 `String`、`Number`、`Boolean`，我们知道 `string` 类型和 `String` 类型并不一样，在 `TypeScript` 中也是一样
 
