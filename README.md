@@ -1,6 +1,8 @@
-7dayTypeScript
+# 7dayTypeScript
 
-## 01day TypeScript初体验-环境搭建与编译执行
+01day 
+
+## TypeScript初体验-环境搭建与编译执行
 
 （1）环境搭建
 
@@ -113,7 +115,9 @@ tsc -p ./configs
 tsc -p ./config/ts.json
 ```
 
-## 02day 类型系统
+02day
+
+## 类型系统
 
 （1）什么是类型
 
@@ -526,7 +530,9 @@ function add(x: number, y: number): number {
 }
 ```
 
-## 03day 高级类型与接口
+03day
+
+## 高级类型与接口
 
 （1）接口定义
 
@@ -665,7 +671,9 @@ let box: Box = {height: 5, width: 6, scale: 10}
 - 如果合并的接口存在同名的非函数成员，则必须保证他们类型一致，否则编译报错
 - 接口中的同名函数则是采用重载（后期函数说明）
 
-## 04day 高级类型
+04day
+
+## 高级类型
 
 （1）联合类型
 
@@ -987,7 +995,9 @@ if (div) {
 }
 ```
 
-## 05day 面向对象
+05day
+
+## 面向对象
 
 （1）类
 
@@ -1302,7 +1312,7 @@ class VIP extends User {
     constructor(
         id: number,
         username: string,
-            private _allowFileTypes: array<iallow_file_type_list>
+        private _allowFileTypes: array<iallow_file_type_list>
     ) {
         super(id, username);
     }
@@ -1424,11 +1434,456 @@ abstract class Component<T1, T2> {
 > - 如果一个类有抽象方法，那么该类也必须为抽象的
 > - 如果一个类是抽象的，那么就不能使用 new 进行实例化（因为抽象类表明该类有未实现的方法，所以不允许实例化）
 
-（10）类与接口
+## 类与接口
 
+```
 在前面我们已经学习了接口的使用，通过接口，我们可以为对象定义一种结构和契约。我们还可以把接口与类进行结合，通过接口，让类去强制符合某种契约，从某个方面来说，当一个抽象类中只有抽象的时候，它就与接口没有太大区别了，这个时候，我们更推荐通过接口的方式来定义契约
+```
 
 - 抽象类编译后还是会产生实体代码，而接口不会
+- `TypeScript` 只支持单继承，即一个子类只能有个父类，但是一个类可以实现多个接口
+- 接口不能有实现，抽象类可以
+
+（1）implements 
+
+在一个类中使用接口并不是使用 `extends` 关键字，而是 `implements`
+
+- 与接口类似，如果一个类 `implements` 了一个接口，那么就必须实现该接口中定义的契约
+- 多个接口使用， 分隔
+- `implements` 与 `extends` 可同时存在
+
+```typescript
+interface ILog {
+    getInfo(): string
+}
+
+class MyComponent extends Component<IMyComponentProps, IMyComponentState> implements ILog {
+
+    constructor(
+        props: IMyComponentProps
+    ) {
+        super(props);
+
+        this.state = {
+            val: 1
+        }
+    }
+
+    render() {
+        this.props.title;
+        this.state.val;
+
+        return `<div>组件</div>`
+    }
+
+    getInfo() {
+        return `组件：MyComponent, props: ${this.props}, state: ${this.state}`
+    }
+}
+```
+
+实现多个接口
+
+```typescript
+interface ILog {
+    getInfo(): string;
+}
+
+interface IStorage {
+    save(data: string): void;
+}
+
+class MyComponent extends Component<IMyComponentProps, IMyComponentState> implements ILog, IStorage {
+
+    constructor(props: IMyComponentProps) {
+        super(props);
+
+        this.state = {
+            val: 1
+        }
+    }
+
+    render() {
+        this.props.title;
+        this.state.val;
+        return `<div>组件</div>`
+    }
+
+    getInfo(): string {
+        return `组件：MyComponent, props: ${this.props}, state: ${this.state}`; 
+    }
+
+    save(data, string) {
+        // ...存储 
+    }
+}
+```
+
+接口也可以继承
+
+```typescript
+interface ILog {
+    getInfo(): string;
+}
+
+interface IStorage extends ILog {
+    save(data: string): void; 
+}
+```
+
+06day
+
+## 类型系统深入
+
+### 类型保护
+
+通常在 `javascript` 中通过判断来处理一些逻辑，在 `TypeScript` 中这种条件语句块还有另外一个特性：根据判断逻辑的结果，缩小类型范围（有点类似断言）, 这种特性称为 `类型保护`，触发条件：
+
+- 逻辑条件语句块：if、else、else if
+- 特定的一些关键字：typeof、instanceof、in.......
+
+（1）typeof
+
+我们知道 `typeof` 可以返回某个数据的类型，在 `TypeScript` 在 `if`、`else` 代码块中能够把 `typeof` 识别为类型保护，推断出合适的类型
+
+```typescript
+function fn(a: string | number) {
+    // error，不能保证 a 就是字符串
+    a.substring(1);
+    if (typeof a === 'string') {
+        // ok
+        a.substring(1);
+    } else {
+        // ok
+        a.toFixed(1);
+    }
+}
+```
+
+（2）instanceof
+
+与 `typeof` 类似的，`instanceof` 也可以被 `TypeScript` 识别为类型保护
+
+```typescript
+function fn(a: Date | Array<any>) {
+    if (a instanceof Array) {
+        a.push(1);
+    } else {
+        a.getFullYear();
+    }
+}
+```
+
+（3）in
+
+`in` 也是如此
+
+```typescript
+interface IA {
+    x: string;
+    y: string;
+}
+
+interface IB {
+    a: string;
+    b: string;
+}
+
+function fn(arg: IA | IB) {
+    if ('x' in arg) {
+        // ok
+        arg.x;
+        // error
+        arg.a;
+    } else {
+        // ok
+        arg.a;
+        // error
+        arg.x;
+    }
+}
+```
+
+### 字面量类型保护
+
+如果类型为字面量类型，那么还可以通过该字面量类型的字面值进行推断
+
+```typescript
+interface IA {
+    type: 'IA';
+    x: string;
+    y: string;
+}
+
+interface IB {
+    type: 'IB',
+    a: string;
+    b: string;
+}
+
+function fn(arg: IA | IB) {
+    if (arg.type === 'IA') {
+        // ok
+        arg.x;
+        // error
+        arg.a;
+    } else {
+        // ok
+        arg.a;
+        // error
+        arg.x;
+    }
+}
+```
+
+### 自定义类型保护
+
+有的时候，以上的一些方式并不能满足一些特殊情况，则可以自定义类型保护规则
+
+```typescript
+function canEach(data: any): data is Element[] | Nodelist {
+    return data.forEach !== undefined;
+}
+
+function fn2(elements: Element[] | NodeList | Element) {
+    if (canEach(elements)) {
+        elements.forEach((el: Element) => {
+            el.classList.add('box');
+        })
+    } else {
+        elements.classList.add('box');
+    }
+}
+```
+
+`data is Element[] | NodeList` 是一种类型请问。视为：`xx is XX`，返回这种类型的函数就可以被 `TypeScript` 识别为类型保护
+
+### 类型操作
+
+`TypeScript` 提供了一些方式来操作类型这种数据，但是需要注意的是，类型数据只能作为类型来使用，而不能作为程序中的数据，这是两种不同的数据，一个用在编译检测阶段，一个用于程序执行阶段
+
+（1）typeof
+
+在 `TypeScript` 中，`typeof` 有两种作用
+
+- 获取数据的类型
+- 捕获数据的类型
+
+```typescript
+let str1 = 'lin';
+
+// 如果是 let , 把 string 作为值
+let t = typeof str1;
+
+// 如果是 type，把 string 作为类型
+type myType = typeof str1;
+
+let str2: myType = 'li';
+let str2: typeof str1 = 'qi'
+```
+
+（2）keyof
+
+获取类型的所有 `key` 的集合
+
+```typescript
+interface  Person {
+    name: string;
+    age: number;
+};
+
+// 等同：type personKeys = 'name' | 'age'
+type personKeys = keyof Person;
+
+let p1 = {
+    name: 'lin',
+    age: 18
+}
+
+function getPersonVal(k: personKeys) {
+    return p1[key];
+}
+
+/**
+ * 等同：
+ * function getPersonVal(k: 'name' | 'age') {
+ *      return p1[k]
+ * }
+ */
+
+getPersonVal('name'); // 正确
+getPersonVal('gender'); // 错误
+```
+
+（3）in
+
+针对类型进行操作的话，内部使用的 `for in` 对类型进行遍历
+
+```typescript
+interface Person {
+    name: string;
+    age: number;
+}
+
+type personKey = keyof Person;
+type newPerson = {
+    [k in personKeys]: number;
+}
+/**
+ * 等同：[k in 'name' | 'age']: number;
+ * 也可以写成
+ * [k in keyof Person]: number;
+ */
+
+type newPerson = {
+    name: number;
+    age: number;
+}
+```
+
+注意：`in` 后面的类型值必须是 `string` 或者 `number` 或者 `symbol`
+
+### 类型兼容
+
+`TypeScript` 的类型系统是基于结构子类型的，它与名义类型（如：java）不同（名义类型的数据类型兼容性或等价性是通过明确的声明或类型的名称来决定的）。这种基于结构子类型的类型系统是基于组成结构的，只要具有相同类型的成员，则两种类型即为兼容的。
+
+```typescript
+class Person {
+    name: string;
+    age: number;
+}
+
+class Cat {
+    name: string;
+    age: number;
+}
+
+function fn(p: Person) {
+    p.name;
+}
+
+let xiao = new Cat();
+// ok 因为 Cat 类型的结构与 Person 类型结构相似，所以它们是兼容的
+fn(xiao)
+```
+
+## 泛型
+
+### 为什么要使用泛型
+
+许多时候，标注的具体类型并不能确定，比如一个函数的参数类型
+
+```typescript
+function getVal(obj, k) {
+    return obj[k];
+}
+```
+
+```
+上面的函数，想实现的是获取一个对象指定的 k 所对应的值，那么实际使用的时候，obj的类型是不确定的，自然 k 的取值范围也是不确定的，它需要我们在具体调用的时候才能确定，这个时候这种定义过程不确定类型的需求就可以通过泛型来解决 
+```
+
+### 泛型的使用 - 函数
+
+```typescript
+function getVal<T>(obj: T, k: keyof T) {
+    return obj[k];
+}
+```
+
+所谓的泛型，就是给可变（不定）的类型定义变量（参数），`<>` 类似 `()`
+
+### 泛型类
+
+在面向对象中有讲过一个基于泛型使用的例子：模拟组件
+
+```typescript
+abstract class Component<T1, T2> {
+    
+    props: T1;
+    state: T2;
+
+    constructor(
+        props: T1
+    ) {
+        this.props = props;
+    }
+
+    abstract render(): string;
+
+}
+
+interface IMyComponentProps {
+    val: number;
+}
+
+interface IMyComponentState {
+    x: number;
+}
+
+class MyComponent extends Component<IMyComponentProps, IMyComponentState> {
+
+    constructor(props: IMyComponentProps) {
+        super(props);
+
+        this.state = {
+            x: 1
+        }
+    }
+
+    render() {
+        this.props.val;
+        this.state.x;
+        return `<myComponent />`;
+    }
+
+}
+
+let myComponent = new MyComponent({val: 1});
+myComponent.render();
+```
+
+### 泛型接口
+
+在接口中使用泛型
+
+后端提供了一些接口，用以返回一些数据，依据返回的数据格式定义如下接口：
+
+```typescript
+interface IResponseData {
+    code: number;
+    message?: string;
+    data: any;
+}
+```
+
+根据接口，我们封装对应的一些方法
+
+```typescript
+function getData(url: string) {
+    return fetch(url).then(res => {
+        return res.json();
+    }).then( (data: IResponseData ) => {
+        return data;
+    } )
+}
+```
+
+但是，会发现该接口的 `data` 项的具体格式不确定，不同的接口会返回的数据是不一样的，当我们想根据具体当前请求的接口返回具体 `data` 格式的时候，就比较麻烦了，因为 `getData` 并不清楚你调用的具体接口是什么，对应的数据又会是什么样的
+
+这个时候我们可以对 `IResponseData` 使用泛型
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
