@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist",
+        "target": "es5",
+        // 模块编译
+        "module": "amd",
+        // 实时监听文件的变化
+        "watch": true,
+        // 严格检测
+        "strictNullChecks": true,
+        // 隐性any控制
+        "noImplicitAny": true,
+        // 手动载入需要用到的第三方库
+        "lib": ["ES6", "DOM"]
+    },
+    "include": ["./src/**/*"]
+}

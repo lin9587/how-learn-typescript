@@ -1873,15 +1873,462 @@ function getData(url: string) {
 
 这个时候我们可以对 `IResponseData` 使用泛型
 
+```typescript
+interface IResponseData<T> {
+    code: number;
+    message?: string;
+    data: T;
+}
+```
+
+```typescript
+function getData<U>(url: string) {
+    return fetch(url).then( res => {
+        return res.json();
+    }).then( (data: IResponseData<U>) => {
+        return data;
+    })
+}
+```
+
+定义不同的数据接口
+
+```typescript
+// 用户接口
+interface IResponseUserData {
+    id: number;
+    username: string;
+    email: string;
+}
+
+// 文章接口
+interface IResponseArticleData {
+    id: number;
+    title: string;
+    author: IResponseUserData;
+}
+```
+
+调用具体代码
+
+```typescript
+(async function() {
+    let user = await getData<IResponseUserData>('/user');
+    if (user.code === 1) {
+        console.log(user.message);
+    } else {
+        console.log(user.data.username);
+    }
+
+    let article = await getData<IResponseArticleData>('/article');
+    if (article.code === 1) {
+        console.log(article.message);
+    } else {
+        console.log(article.data.id);
+        console.log(article.data.author.username);
+    }
+})()
+```
+
+07day
+
+## 模块化
+
+```
+模块化是指自上而下把一个复杂问题（功能）划分成若干模块的过程，在编程中就是指通过某种规则对程序（代码）进行分割、组织、打包，每个模块完成一个特定的子功能，再把所有的模块按照某种规则进行组装，合并成一个整体，最终完成整个系统的所有功能
+```
+
+从基于 `Node.js` 的服务端 `commonjs` 模块化，到前端基于浏览器的 `AMD`、`CMD` 模块化，再到 `ECMAScript2015` 开始原生内置的模块化，`javascript` 的模块化方案和系统日逐成熟。
+
+`TypeScript` 也是支持模块化的，而且它的出现要比 `ECMAScript` 模块系统标准化要早，所以在 `Typescript` 中既有对 `ECMAScript` 模块系统的支持，也包含有一些自己的特点
+
+### 模块化历程
+
+- CommonJS
+- AMD
+- UMD
+- ESM
+
+无论是那种模块化规范，重点关注：保证模块独立性的同时又能很好的与其它模块进行交互
+
+- 如何定义一个模块与模块内部私有作用域
+- 通过何种方式导出模块内部数据
+- 通过何种方式导入其他外部模块数据
+
+## 基于服务端、桌面端的模块化
+
+（1）CommonJS
+
+在早期，对于运行在浏览器端的 `JavaScript` 代码，模块化的需求并不那么的强烈，反而是偏向 服务端、桌面端 的应用对模块化有迫切的需求（相对来说，服务端、桌面端程序的代码的需求要复杂一些）。`CommonJS` 规范就是一套偏向服务端的模块化规范，它为非浏览器端的模块化实现定制了一些的方案和标准，`NodeJS` 就采用了这个规范。
+
+- 独立模块作用域
+
+一个文件就是模块，拥有独立的作用域
+
+- 导出模块内部数据
+
+通过 `module.exports` 或 `exports` 对象导出模块内部数据
+
+```javascript
+// a.js
+let a = 1;
+let b = 2;
+
+module.exports = {
+    x: a,
+    y: b
+}
+
+// or
+exports.x = a;
+exports.y = b;
+```
+
+- 导入外部模块数据
+
+通过 `require` 函数导入外部模块数据
+
+```javascript
+// b.js
+let a = require('./a');
+a.x;
+a.y;
+```
+
+## 基于浏览器的模块化
+
+（1）AMD
+
+```
+因为 CommonJS 规范一些特性（基于文件系统，同步加载），它并不适用于浏览器，所以另外定义了适用于浏览器端的规范
+```
+
+`AMD (Asynchronous Module definition)`
+
+[https://github.com/amdjs/amdjs-api/wiki/AMD](https://github.com/amdjs/amdjs-api/wiki/AMD)
+
+浏览器并没有具体实现该规范的代码，可以通过一些第三方库来解决
+
+- requireJS
+
+[https://requirejs.org/](https://requirejs.org/)
+
+```html
+1.html
+<script data-main="js/a" src="https://cdn.bootcss.com/require.js/2.3.6/require.min.js"></script>
+```
+
+- 独立模块作用域
+
+通过一个 `define` 方法来定义一个模块，在该方法内部模拟模块独立作用域
+
+```javascript
+// b.js
+define(function() {
+    // 模块内部代码
+})
+```
+
+- 导出模块内部数据
+
+通过 `return` 导出模块内部数据
+
+```javascript
+// b.js
+define(function() {
+    let a = 1;
+    let b = 2;
+
+    return {
+        x: a,
+        y: b
+    }
+})
+```
+
+- 导入外部模块数据
+
+通过前置依赖列表导入外部模块数据
+
+```javascript
+// a.js
+define(['./b'], function(b) {
+    console.log(b);
+})
+```
+
+**`requireJS` 的 `CommonJS` 风格**
+
+`requireJS` 的 `CommonJS` 风格的语法
+
+- 导出模块内部数据
+
+```javascript
+// b.js
+define(function(require, exports, module) {
+    let a = 1;
+    let b = 2;
+
+    module.exports = {
+        x: a,
+        y: b
+    }
+})
+```
+
+- 导入外部模块数据
+
+```javascript
+// a.js
+define(function(require, exports, module) {
+    let b = require('./b');
+    console.log(b);
+})
+```
+
+（2）UMD
+
+严格来说，`UMD` 并不属于一套模块规范，它主要用来处理 `CommonJS`、`ADM`、`CMD` 的差异兼容，是模块代码能在前面不同的模块环境下都能正常运行。随着 `Node.js` 的流行，前端和后端都可以基于 `JavaScript` 来进行开发，这个时候或多或少的会出现前后端使用相同代码的可能，特别是一些不依赖宿主环境（浏览器、服务器）的偏低层的代码。我们能实现一套代码多端适用（同构），其中在不同的模块化标准下使用也是需要解决问题，`UMD` 就是一种解决方式
+
+```javascript
+(function (root, fectory) {
+    if (typeof module === 'object' && typeof module.exports === 'object') {
+        // Node, CommonJS-like
+        module.exports = fectory();
+    } else if (typeof define === 'function' && define.amd) {
+        // AMD 模块环境下
+        define(factory);
+    } else {
+        // 不能使用任何模块系统，直接挂在到全局
+        root.lin = factory();
+    }
+}(this, function(){
+    let a = 1;
+    let b = 2;
+
+    // 模块导出数据
+    return {
+        x: a,
+        y: b
+    }
+}));
+```
+
+## 模块化的大同世界
+
+（1）ESM
+
+从 `ECMAScript2015/ECMAScript6` 开始，`JavaScript` 原生引入了模块概念，而且现在主流浏览器也都有了很好的支持，同时在 `Node.js` 也有了支持，所以未来基于 `JavaScript` 的程序无论是在前端浏览器还是在后端 `Node.js` 中，都会逐渐的被统一
+
+- 独立模块作用域
+
+一个文件就是模块，拥有独立的作用域，且导出的模块都自动处于 `严格模式` 下，即：`use strict`
+
+`script` 标签需要声明 `type = 'module'`
+
+- 导出模块内部数据
+
+导出 `export` 语句导出模块内部数据
+
+```javascript
+// 导出单个特性
+export let name1, name2, _, nameN;
+export let name1 = _, name2 = _, _, nameN;
+export function FunctionName() {...}
+export class ClassName {...}
+
+// 导出列表
+export { name1, name2, _, nameN };
+
+// 重命名导出
+export { variable1 as name1, variable2 as name2, _, nameN }
+
+// 默认导出
+export default expression;
+export default function() {..}
+export default function  name1() {..}
+export { name1 as default, _ }
+
+// 模块重定向导出
+export * from ...;
+export { name1, name2, _, nameN } from _;
+export { import1 as name1, import2 as name2, _, nameN } from ...;
+export { default } from _;
+```
+
+- 导入外部模块数据
+
+导入分为两种模式
+
+- 静态导入
+- 动态导入
+
+1、静态导入
+
+使用 `import` 语句导入模块，这种方式称为：`静态导入`
+
+静态导入方式不支持延迟加载，`import` 必须在模块的最开始
+
+```javascript
+import defaultExport from 'module-name';
+import * as name from 'module-name';
+import { export } from 'module-name';
+import { export as alias } from 'module-name';
+import { export1, export2 } from 'module-name';
+import { foo, bar } from 'module-name/path/to/specific/un-exported/file';
+import { export1, export2 as alias2, [...] } from 'module-name';
+import defaultExport, { export [, [...]] } from 'module-name';
+```
+
+```javascript
+document.onclick = function() {
+
+    // import 必须放置在当前模块最开始加载
+    // import a from './a.js'
+
+    // console.log(m);
+
+}
+```
+
+2、动态导入
+
+此外，还有一个类似函数的动态 `import()`，它不需要依赖 `type='module'` 的 script 标签
+
+关键字 `import` 可以像调用函数一样来动态的导入模块。以这种方式调用，将返回一个 `promise`
+
+```javascript
+import('./a.js').then((a) => {
+    //...
+});
+
+// 也支持await
+let m = await import('./a.js');
+```
+
+> 通过 `import()` 方法导入返回的数据会被包装在一个对象中，即使是 `default` 也是如此
 
 
+（2）TypeScript 中的模块化
 
+`TypeScript` 也支持模块化，而且它的出现比 `ESM` 还要早，`Typescript` 的模块化实现也有一些地方与上述其他一些模块化系统有所差异，但是随着 `Typescript` 的更新，同时 `ESM` 标准本身也越来越成熟，所以当下和未来 `Typescript` 的模块化也会与 `ESM` 越来越接近
 
+## TypeScript 模块系统
 
+虽然早期的时候，`TypeScript` 有一套自己的模块系统实现，但是随着更新，以及 `JavaScript` 模块化的日渐成熟，`TypeScript` 对 `ESM` 模块系统的支持也是越来越完善
 
+### 模块
 
+无论是 `JavaScript` 还是 `TypeScript` 都是以一个文件作为模块最小单元
 
+- 任何一个包含了顶级 `import` 或者 `export` 的文件都被当成一个模块
+- 相反的一个文件不带有顶级的 `import` 或者 `export`，那么它的内容就是全局可见的
 
+### 全局模块
+
+如果一个文件中没有顶级 `import` 或者 `export`，那么它的内容就是全局的，整个项目可见的
+
+```typescript
+// a.ts
+let a1 = 100;
+let a2 = 200;
+```
+
+```typescript
+// b.ts
+// ok, 100
+console.log(a1);
+// error
+lel a2 = 300;
+```
+
+> 不推荐使用全局模块，因为它会容易造成代码命名冲突（全局变量污染）
+
+### 文件模块
+
+任何一个包含了顶级 `import` 或者 `export` 的文件都会当做一个模块，在 `TypeScript` 中也称为外部模块。
+
+### 模块语法
+
+`TypeScript` 与 `ESM` 语法类似
+
+### 导出模块内部数据
+
+使用 `export` 导出模块内部数据（变量、函数、类、类型别名、接口.....）
+
+### 导入外部模块数据
+
+使用 `import` 导入外部模块数据
+
+### 模块编译
+
+`TypeScript` 编译器也能够根据相应的编译参数，把代码编译成指定的模块系统使用的代码
+
+（1）`module` 选项
+
+在 `TypeScript` 编译选项中，`module` 选项是用来指定生成哪个模块系统的代码，可设置的值有：`none`、`commonjs`、`amd`、`umd`、`es6 / es2015 / esnext`、`System`
+
+- `target == "es3" or "es5"` ：默认使用 `commonjs`
+- 其他情况，默认 `es6`
+
+### 模块导出默认值的问题
+
+如果一个模块没有默认导出
+
+```typescript
+// a1.ts
+export let obj = {
+    x: 1
+}
+```
+
+则在引入该模块的时候，需要使用下列一些方式来导入
+
+```typescript
+// main.ts
+// error: 提示 m1 模块没有默认导出
+import v from 'a1.'
+
+// 可以简单的使用如下方式
+import { obj } from './a1'
+console.log(obj.x)
+// or
+import * as m1 from './m1'
+console.log(m1.obj.x)
+```
+
+### 加载非 `TS` 文件
+
+有的时候，我们需要引入一些 `js` 的模块，比如导入一些第三方的使用 `js` 而非 `ts` 编写的模块，默认情况下 `tsc` 是不对非 `ts` 模块文件进行处理的
+
+我们可以通过 `allowJS` 选项开始该特性
+
+```ts
+// a.js
+export default 100;
+// main.ts
+import a from './a.js'
+```
+
+### 非 `ESM` 模块中的默认值问题
+
+在 `ESM` 中模块可以设置默认导出值
+
+```typescript
+export default 'lin';
+```
+
+但是在 `CommonJS`、`AMD` 中是没有默认值设置的，它们导出的是一个对象 {`exports`}
+
+```typescript
+module.exports.obj = {
+    x: 1000
+}
+```
+
+在 `TypeScript` 中导入这种模块的时候会出现 `模块没有默认导出的错误提示`。
+
+简单一些的做法：
 
 
 
