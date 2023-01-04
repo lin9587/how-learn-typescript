@@ -14,8 +14,7 @@ TypeScript 的编译器是基于 Node.js 的，所以我们需要先安装 Node.
 
 （2）安装 `Node.js`
 
-[https://nodejs.org](https://nodejs.org)
-安装完成以后，可以通过 `终端` 或者 `cmd` 等命令工具来调佣 `node`
+[https://nodejs.org](https://nodejs.org) 安装完成以后，可以通过 `终端` 或者 `cmd` 等命令工具来调佣 `node`
 
 ```bash
 # 查看当前 node 版本
@@ -80,7 +79,7 @@ tsc --ourDir ./dist --target ES6 ./src/hellots.ts
 tsc --outDir ./dist --target ES6 --watch ./src/hellots.ts
 ```
 
-如果每次编译都输入这么一大堆的选项其实是很繁琐的，好在 `TypeScript` 编译为我们提供了一个更加强大且方便的方式，编译配置文件：`tsconfig.json` ，我们可以把上门的编译选项保存到这个配置文件中
+如果每次编译都输入这么一大堆的选项其实是很繁琐的，好在 `TypeScript` 编译为我们提供了一个更加强大且方便的方式，编译配置文件：`tsconfig.json` ，我们可以把上面的编译选项保存到这个配置文件中
 
 （7）编译配置文件
 
@@ -126,6 +125,7 @@ tsc -p ./config/ts.json
 ```
 
 （2）数据是有格式（类型）的
+
 - 数字、布尔值、字符
 - 数组、集合
 
@@ -169,7 +169,7 @@ tsc -p ./config/ts.json
 类型系统包含两个重要组成部分
 
 - 类型标注（定义、注解）- typing
-- 类型检测（检车）- type-checking
+- 类型检测（检测）- type-checking
 
 （1）类型标注
 
@@ -189,7 +189,7 @@ tsc -p ./config/ts.json
 
 在 `TypeScript` 中，类型标注的基本语法格式为：
 
-```javascript
+```typescript
 数据载体：类型
 ```
 
@@ -218,6 +218,7 @@ tsc -p ./config/ts.json
 ```
 
 标注语法：
+
 ```typescript
 let title: string = 'lin'
 let n: number = 100
@@ -2330,12 +2331,129 @@ module.exports.obj = {
 
 简单一些的做法：
 
+```typescript
+import * as a from './a.js'
+```
 
+通过配置选项解决：
 
+allowSyntheticDefaultImports
 
+设置为：`true`，允许从没有设置默认导出的模块中默认导入。
+这并不影响代码的输出，仅仅只是为了类型检查。
 
+虽然通过上面的方式可以解决编译过程中的检测问题，但是编译后的具体要运行代码还是有问题的。
 
+esModuleInterop
 
+设置为：`true`，则在编译的同时生成一个 `__importDefault` 函数，用来处理具体的 `default` 默认导出
 
+> 注意：以上设置只能当 `module` 不为 `es6+` 的情况喜爱有效
 
+### 以模块的方式加载 JSON 格式的文件
 
+`TypeScript 2.9+` 版本添加了一个新的编译选项：`resolveJsonModule`，它允许我们把 `JSON` 文件作为模块进行加载
+
+resolveJSONModule
+
+设置为：`true`，可以把 `json` 文件作为一个模块进行解析
+
+**moduleResolution**
+
+模块解析策略
+
+- 当 `module` 为 `AMD` 或者 `System` 或者 `ES6` 时，默认为 `classic` 模式
+- 其它情况默认为 `node` 模式
+
+`resolveJsonModule` 设置为 `true` 的时候，`moduleResolution` 必须为 `node`
+
+**data.json**
+
+```json
+{
+    "name": 'lin',
+    "age": 18,
+    "gender": "男"
+}
+```
+
+**ts文件**
+
+```typescript
+import * as userData from './data.json'
+console.log(userData)
+```
+
+## 命名空间
+
+在 `TS` 中，`export` 和 `import` 称为外部模块，`TS` 中还支持一种内部模块 `namespace`，它的主要作用只是单纯的在文件内部（模块内容）隔离作用域
+
+```typescript
+namespace k1 {
+    let a = 10;
+    export var obj = {
+        a
+    }
+}
+
+namespace k2 {
+    let a = 20;
+    console.log(k1.obj)
+}
+```
+
+## 模块解析策略
+
+### 什么是模块解析
+
+模块解析是指编译器在查找导入模块内容时所遵循的流程。
+
+### 相对与非相对模块导入
+
+（1）相对导入
+
+相对导入是以 `/`、`./` 或 `../` 开头的引用
+
+```typescript
+// 导入根目录下的 a1 模块文件
+import m1 from '/m1'
+// 导入当前目录下的 mods 目录下的 a2 模块文件
+import a2 from './mods/a2'
+// 导入上级目录下的 a3 模块文件
+import a3 from '../a3'
+```
+
+（2）非相对导入
+
+所有其它形式的导入被当作非相对的
+
+```typescript
+import a1 from 'a1'
+```
+
+### 模块解析策略
+
+为了兼容不同的模块系统（`CommonJS`、`ESM`），`TypeScript` 支持两种不同的模块解析策略：`Node`、`Classic`，当 `--module` 选项为：`AMD`、`System`、`ES2015` 的时候，默认为 `Calssic`，其它情况为 `Node`
+
+- --moduleResolution 选项
+
+除了根据 `--module` 选项自动选择默认模块系统类型，我们还可以通过 `--moduleResolution` 选项来手动指定解析策略
+
+```typescript
+// tsconfig.json
+{
+    ...,
+    "moduleResolution": "node"
+}
+```
+
+### Classic 模块解析策略
+
+该策略是 `TypeScript` 以前的默认解析策略，它已经被新的 `Node` 策略所取代，现在使用该策略主要是为了向后兼容
+
+（1）相对导入
+
+```typescript
+// /src/a1/a.ts
+import b from './b.ts'
+```
