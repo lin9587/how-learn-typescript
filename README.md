@@ -2457,3 +2457,208 @@ import a1 from 'a1'
 // /src/a1/a.ts
 import b from './b.ts'
 ```
+
+解析查找流程：
+
+1. src/a1/b.ts
+
+- 默认后缀补全
+
+```typescript
+// /src/a1/a.ts
+import a from './b'
+```
+
+解析查找流程：
+
+1. /src/a1/b.ts
+
+2. /src/a1/b.d.ts
+
+（2）非相对导入
+
+```typescript
+// /src/a1/a.ts
+import b from 'b'
+```
+
+对于非相对模块的导入，则会从包含导入文件的目录开始依次向上级目录遍历查找，直到根目录为止
+
+```
+1. /src/a1/b.ts
+2. /src/a1/b.d.ts
+3. /src/b.ts
+4. /src/b.d.ts
+5. b.ts
+6. /b.d.ts
+```
+
+### Node 模块解析策略
+
+该解析策略是参照了 `Node.js` 的模块解析机制
+
+（1）相对导入
+
+```typescript
+// node.js
+// /src/a1/a.js
+import b from './b'
+```
+
+在 `Classic` 中，模块只会按照单个的文件进行查找，但是在 `Nodoe.js` 中，会首先安装单个文件进行查找，如果不存在，则会按照目录进行查找
+
+```
+1. /src/a1/b.js
+2. /src/a1/b/package.json 中 main 中指定的文件
+3. /src/a1/b/index.js
+```
+
+（2）非相对导入
+
+```typescript
+// node.js
+// /src/a1/a.js
+import b from 'b'
+```
+
+对于非相对导入模块，解析是很特殊的，`Node.js` 会这一个特殊文件夹 `node_modules` 里查找，并且在查找过程中从当前目录的 `node_modules` 目录下逐级向上级文件进行查找
+
+```
+1. /src/a1/node_modules/b.js
+2. /src/a1/node_modules/b/package.json 中 'main' 中指定的文件
+3. /src/a1/node_modules/b/index.js
+4. /src/node_modules/b.js
+5. /src/node_modules/b/package.json 中 'main' 中指定的文件
+6. /src/node_modules/b/index.js
+7. /node_modules/b.js
+8. /node_modules/b/package.json 中 'main' 中指定的文件
+9. /node_modules/b/index.js
+```
+
+### TypeScript 模块解析策略
+
+`TypeScript` 现在使用了与 `Node.js` 类似的模块解析策略，但是 `TypeScript` 增加了其它几个源文件扩展名的查找（`.ts`、`.tsx`、`.d.ts`），同时 `TypeScript` 在 `package.json` 里使用字段 `type` 来表示 `main` 的意义
+
+## 装饰器学习
+
+### 什么是装饰器
+
+`装饰器-Decorators` 在 `TypeScript` 中是一种可以在不修改类代码的基础上通过添加标注的方式来对类型进行扩展的一种方式
+
+- 减少代码量
+- 提高代码扩展性、可读性和维护下
+
+> 在 `TypeScript` 中，装饰器只能在类中使用
+
+### 装饰器语法
+
+装饰器的使用及其简单
+
+- 装饰器本质就是一个函数
+- 通过特定语法在特定的位置调用装饰器函数即可对数据（类、方法、甚至参数等）进行扩展
+
+（1）启用装饰器特性
+
+- `experimentalDecorators: true`
+
+```typescript
+// 装饰器函数
+functon log(target: Function, type: stirng, descriptor: PropertyDescriptor) {
+    let value = descriptor.value;
+
+    descriptor.value = function(a: number, b: number) {
+        let result = value(a, b);
+        console.log(`日志`, {
+            type,
+            a,
+            b,
+            result
+        })
+        return result;
+    }
+}
+
+// 原始类
+class M {
+    @log
+    static add(a: number, b: number) {
+        return a + b;
+    }
+    @log
+    static sub(a: number, b: number) {
+        return a -b;
+    }
+}
+
+let v1 = M.add(1, 2);
+console.log(v1);
+let v2 = M.sub(1, 2);
+console.log(v2);
+```
+
+### 装饰器
+
+
+`装饰器` 是一个函数，它可以通过 `@装饰器函数` 这种特殊的语法附加在 `类`、`方法`、`访问符`、`属性`、`参数` 上，对它们进行包装，然后返回一个包装后的目标对象（`类`、`方法`、`访问符`、`属性`、`参数`），装饰器工作在类的构建阶段，而不是使用阶段
+
+```typescript
+function 装饰器1() {}
+...
+
+@装饰器1
+class Myclass {
+
+    @装饰器2
+    a: number
+
+    @装饰器3
+    static property1: number
+
+    @装饰器4
+    get b() {
+        return 1;
+    }
+
+    @装饰器5
+    static get c() {
+        return 2;
+    }
+
+    @装饰器6
+    public method1(@装饰器5 x: number) {
+        // ...
+    }
+
+    @装饰器7
+    public method2() {
+        // ...
+    }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
