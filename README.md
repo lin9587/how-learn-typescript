@@ -1,8 +1,8 @@
 # 7dayTypeScript
 
-01day 
+01day
 
-## TypeScript初体验-环境搭建与编译执行
+## TypeScript 初体验-环境搭建与编译执行
 
 （1）环境搭建
 
@@ -55,7 +55,7 @@ let str: string = 'lin'
 tsc ./src/hellots.ts
 ```
 
-默认情况下会在当前文件所在目录下生成同名的js文件
+默认情况下会在当前文件所在目录下生成同名的 js 文件
 
 （6）一些有用的编译选项
 
@@ -87,14 +87,14 @@ tsc --outDir ./dist --target ES6 --watch ./src/hellots.ts
 
 ```json
 {
-    "compilerOptions": {
-        "outDir": "./dist",
-        "target": "es6",
-        "watch": true
-    },
-    // ** : 所有目录（包含子目录）
-    // * : 所有文件，也可以指定类型 *.ts
-    "include": ["./src/**/*"]
+	"compilerOptions": {
+		"outDir": "./dist",
+		"target": "es6",
+		"watch": true
+	},
+	// ** : 所有目录（包含子目录）
+	// * : 所有文件，也可以指定类型 *.ts
+	"include": ["./src/**/*"]
 }
 ```
 
@@ -142,25 +142,28 @@ tsc -p ./config/ts.json
 动态类型语言 -> 程序运行期间才做数据类型检查的语言，如：JavaScript
 静态类型语言 -> 程序编译期间做数据类型检查的语言，如：Java
 ```
+
 （5）静态类型语言的优缺点
 
 - 优点
-    - 程序编译阶段（配合IDE\编辑器甚至可以在编码阶段）即可发现一些潜在错误，避免程序在生产环境运行了以后再出现错误
-    - 编码规范、有利于团队开发协作、也更有利于大型项目开发、项目重构
-    - 配合IDE、编辑器提供了更强大的代码只能提示/检查
-    - 代码即文档
+
+  - 程序编译阶段（配合 IDE\编辑器甚至可以在编码阶段）即可发现一些潜在错误，避免程序在生产环境运行了以后再出现错误
+  - 编码规范、有利于团队开发协作、也更有利于大型项目开发、项目重构
+  - 配合 IDE、编辑器提供了更强大的代码只能提示/检查
+  - 代码即文档
 
 - 缺点
-    - 麻烦
-    - 缺少灵活性
+  - 麻烦
+  - 缺少灵活性
 
 （6）动态类型语言
 
 - 优点
-    - 静态类型语言的缺点
+
+  - 静态类型语言的缺点
 
 - 缺点
-    - 静态类型语言的优点
+  - 静态类型语言的优点
 
 > <font color="#58bc85"/>静态类型语言的核心：类型系统</font>
 
@@ -207,7 +210,7 @@ tsc -p ./config/ts.json
 - 元组类型
 - 枚举类型
 - 无值类型
-- Never类型
+- Never 类型
 - 任意类型
 - 未知类型（Version3.0 added）
 
@@ -271,7 +274,7 @@ a.tofixed(1)
 let ele = document.querySelector('div')
 // 获取元素的方法返回的类型可能会包含null，所以最好是先进行必要的判断，再进行操作
 if (ele) {
-    ele.style.display = 'none'
+	ele.style.display = 'none'
 }
 ```
 
@@ -300,8 +303,8 @@ let d1: Date = new Date()
 
 ```javascript
 let a: { username: string, age: number } = {
-    username: 'lin',
-    age: 18
+	username: 'lin',
+	age: 18,
 }
 // ok
 a.username
@@ -309,6 +312,7 @@ a.age
 // error
 a.gender
 ```
+
 优点：方便、直接
 
 缺点：不利于复用和维护
@@ -331,6 +335,7 @@ a.age
 // error
 a.gender
 ```
+
 优点：复用性高
 
 缺点：接口只能作为类型标注使用，不能作为具体值，它只是一种抽象的结构定义，并不是实体，没有具体功能实现
@@ -340,9 +345,7 @@ a.gender
 ```typescript
 // 类的具体使用，也会在后面的说明
 class Person {
-    constructort(public username: string, public age: number) {
-
-    }
+	constructort(public username: string, public age: number) {}
 }
 // ok
 a.username
@@ -357,15 +360,15 @@ a.gender
 
 ```typescript
 interface AjaxOptions {
-    url: string;
-    method: string;
+	url: string
+	method: string
 }
 
 function ajax(options: AjaxOptions) {}
 
 ajax({
-    url: '',
-    method: 'get'
+	url: '',
+	method: 'get',
 })
 ```
 
@@ -373,17 +376,17 @@ ajax({
 
 这里说的包装对象其实就是 `JavaScript` 中的 `String`、`Number`、`Boolean`，我们知道 `string` 类型和 `String` 类型并不一样，在 `TypeScript` 中也是一样
 
-```typescript 
+```typescript
 let a: string
 a = 'lin'
 // error String 有的， string不一定有（对象有的，基础类型不一定有）
 a = new String('lin')
 
-let b: String;
+let b: String
 b = new String('2')
 // ok 和上面正好相反
 b = '2'
-``` 
+```
 
 （4）数组类型
 
@@ -393,7 +396,7 @@ b = '2'
 
 ```typescript
 // <number> 表示数组中存储的数据类型，泛型具体概念后续说
-let arr1: Array<number> = [];
+let arr1: Array<number> = []
 // ok
 arr1.push(100)
 // error
@@ -403,7 +406,7 @@ arr1.push('lin')
 - 简单标注
 
 ```typescript
-let arr2: string[] = [];
+let arr2: string[] = []
 // ok
 arr2.push('lin')
 // error
@@ -433,12 +436,12 @@ data1.push(true)
 
 ```typescript
 enum HTTP_CODE {
-    OK = 200,
-    NOT_FOUND = 404,
-    METHOD_NOT_ALLOWEO
-};
+	OK = 200,
+	NOT_FOUND = 404,
+	METHOD_NOT_ALLOWEO,
+}
 // 200
-HTTP_CODE.OK;
+HTTP_CODE.OK
 // 405
 HTTP_CODE.METHOD_NOT_ALLOWEO
 // error
@@ -446,11 +449,12 @@ HTTP_CODE.OK = 1
 ```
 
 注意事项：
+
 - key 不能是数字
 - value 可以是数字，称为 数字类型枚举，也可以是字符串，称为 字符串类型枚举，但不能是其他值，默认为数字：0
 - 枚举值可以省略，如果省略，则：
-    * 第一个枚举值默认为：0
-    * 非第一个枚举值为上一个数字枚举值 + 1
+  - 第一个枚举值默认为：0
+  - 非第一个枚举值为上一个数字枚举值 + 1
 - 枚举值为只读（常量），初始化后不能修改
 
 1、字符串类型枚举
@@ -459,10 +463,10 @@ HTTP_CODE.OK = 1
 
 ```typescript
 enum URLS {
-    USER_REGISETER = '/user/register',
-    USER_LOGIN = '/user/login',
-    // 如果前一个枚举值类型为字符串，则后续枚举项必须手动赋值
-    INDEX = 0
+	USER_REGISETER = '/user/register',
+	USER_LOGIN = '/user/login',
+	// 如果前一个枚举值类型为字符串，则后续枚举项必须手动赋值
+	INDEX = 0,
 }
 ```
 
@@ -475,20 +479,20 @@ enum URLS {
 表示没有任何数据的类型，通常用于标注无返回值函数的返回值类型，函数默认标注类型为：void
 
 ```typescript
-function fn():void {
-    // 没有 return 或者 return undefined
+function fn(): void {
+	// 没有 return 或者 return undefined
 }
 ```
 
 > 在 `strictNullChecks` 为 `false` 的情况下，`undefined` 和 `null` 都可以复制给 `void`，但是当 `strictNullChecks` 为 `true` 的情况下，只有 `undefined` 才可以复制给 `void`
 
-（8）Never类型
+（8）Never 类型
 
 当一个函数永远不可能执行 `return` 的时候，返回就是 `never`，与 `void` 不同，`void` 是执行了 `return`，只是没有值，`never` 是不会执行 `return`，比如抛出错误，导致函数终止执行
 
 ```typescript
 function fn(): never {
-    throw new Error('error')
+	throw new Error('error')
 }
 ```
 
@@ -527,7 +531,7 @@ unknow，3.0 版本中新增，属于安全版的 any，但是与 any 不同的�
 
 ```javascript
 function add(x: number, y: number): number {
-    return x + y
+	return x + y
 }
 ```
 
@@ -547,8 +551,8 @@ function add(x: number, y: number): number {
 
 ```typescript
 interface Point {
-    x: number;
-    y: number;
+	x: number
+	y: number
 }
 ```
 
@@ -558,8 +562,8 @@ interface Point {
 
 ```typescript
 let p1: Point = {
-    x: 100,
-    y: 100
+	x: 100,
+	y: 100,
 }
 ```
 
@@ -571,9 +575,9 @@ let p1: Point = {
 
 ```typescript
 interface Point {
-    x: number;
-    y: number;
-    color?: string
+	x: number
+	y: number
+	color?: string
 }
 ```
 
@@ -585,8 +589,8 @@ interface Point {
 
 ```typescript
 interface Point {
-    readonly x: number;
-    readonly y: number;
+	readonly x: number
+	readonly y: number
 }
 ```
 
@@ -600,9 +604,9 @@ interface Point {
 
 ```typescript
 interface Point {
-    x: number;
-    y: number;
-    [prop: number]: number;
+	x: number
+	y: number
+	[prop: number]: number
 }
 ```
 
@@ -610,9 +614,9 @@ interface Point {
 
 ```typescript
 interface Point {
-    x: number;
-    y: number;
-    [prop: string]: number;
+	x: number
+	y: number
+	[prop: string]: number
 }
 ```
 
@@ -622,8 +626,8 @@ interface Point {
 
 ```typescript
 interface Point {
-    [prop1: string]: string;
-    [prop2: number]: string;
+	[prop1: string]: string
+	[prop2: number]: string
 }
 ```
 
@@ -631,12 +635,12 @@ interface Point {
 
 ```typescript
 interface Point1 {
-    [prop1: string]: string;
-    [prop2: number]: number; // 错误
+	[prop1: string]: string
+	[prop2: number]: number // 错误
 }
 interface Point2 {
-    [prop1: string]: Object;
-    [prop2: number]: Date; // 正确
+	[prop1: string]: Object
+	[prop2: number]: Date // 正确
 }
 ```
 
@@ -646,9 +650,9 @@ interface Point2 {
 
 ```typescript
 interface IFunc {
-    (a: string): string;
+	(a: string): string
 }
-let fn: IFunc = function(a) {}
+let fn: IFunc = function (a) {}
 ```
 
 > 注意，如果使用接口来单独描述一个函数，是没 key 的
@@ -659,14 +663,14 @@ let fn: IFunc = function(a) {}
 
 ```typescript
 interface Box {
-    height: number;
-    width: number;
+	height: number
+	width: number
 }
 interface Box {
-    scale: number;
+	scale: number
 }
 
-let box: Box = {height: 5, width: 6, scale: 10}
+let box: Box = { height: 5, width: 6, scale: 10 }
 ```
 
 - 如果合并的接口存在同名的非函数成员，则必须保证他们类型一致，否则编译报错
@@ -682,16 +686,16 @@ let box: Box = {height: 5, width: 6, scale: 10}
 
 ```typescript
 function css(ele: Element, attr: string, value: string | number) {
-    // ...
+	// ...
 }
 
 let box = document.querySelector('.box')
 // document.querySelector 方法返回值就是一个联合类型
-if(box) {
-    // ts 会提示 null 的可能性，加上判断更严谨
-    css(box, 'width', '100px');
-    css(box, 'opacity', 1);
-    css(box, 'opacity', [1,3]); // 错误
+if (box) {
+	// ts 会提示 null 的可能性，加上判断更严谨
+	css(box, 'width', '100px')
+	css(box, 'opacity', 1)
+	css(box, 'opacity', [1, 3]) // 错误
 }
 ```
 
@@ -702,10 +706,15 @@ if(box) {
 对一个对象进行扩展：
 
 ```typescript
-interface o1 { x: number, y: string };
-interface o2 { z: number };
+interface o1 {
+	x: number
+	y: string
+}
+interface o2 {
+	z: number
+}
 
-let o:o1 & o2 = Object.assign({}, {x: 1, y: '2'}, {z: 100})
+let o: o1 & o2 = Object.assign({}, { x: 1, y: '2' }, { z: 100 })
 ```
 
 > 小技巧：TypeScript 在编译过程中只会转换语法（比如扩展运算符，箭头函数等语法进行转换，对于 API 是不会进行转换的 （也没必要转换，而是引入一些扩展库进行处理的），如果我们的代码中使用了 target 中没有的 API，则需要手动引入，默认情况下 TypeScript 会根据 target 载入核心的类型库）
@@ -716,13 +725,16 @@ target 为 es6 时：["dom", "es6", "dom.iterable", "scripthost"]
 
 如果代码中使用了这些默认载入库以外的代码，则可以通过 lib 选项来进行设置
 
-
 （3）字面量类型
 
 有的时候，希望标注的不是某个类型，而是一个固定值，就可以使用字面量类型，配合联合类型会更有用
+
 ```typescript
-function setPositiom(ele: Element, direction: 'left' | 'top' | 'right' | 'bottom') {
-    // ...
+function setPositiom(
+	ele: Element,
+	direction: 'left' | 'top' | 'right' | 'bottom',
+) {
+	// ...
 }
 
 // ok
@@ -734,10 +746,11 @@ box && setDirection(box, 'lin')
 （4）类型别名
 
 有的时候类型标注比较复杂，这个时候我们就可以类型标注起一个相对简单的名字
+
 ```typescript
-type dir = 'left' | 'top' | 'right' | 'bottom';
+type dir = 'left' | 'top' | 'right' | 'bottom'
 function setPosition(ele: Element, direction: dir) {
-    // ...
+	// ...
 }
 ```
 
@@ -746,20 +759,20 @@ function setPosition(ele: Element, direction: dir) {
 这里需要注意一下，如果使用 type 来定义函数类型，和接口有点不太相同
 
 ```typescript
-type callback = (a: string) => string;
-let fn: callback = function(a) {};
+type callback = (a: string) => string
+let fn: callback = function (a) {}
 
 // 或者直接
-let fn: (a: string) => string = function(a) {}
+let fn: (a: string) => string = function (a) {}
 ```
 
 - interface 与 type 的区别
-    - interface
-        - 只能描述 Object/class/function 的类型
-        - 同名 interface 自动合并，利于扩展
-    - type
-        - 不能重名
-        - 能描述所有数据
+  - interface
+    - 只能描述 Object/class/function 的类型
+    - 同名 interface 自动合并，利于扩展
+  - type
+    - 不能重名
+    - 能描述所有数据
 
 （5）类型推导
 
@@ -771,12 +784,14 @@ let fn: (a: string) => string = function(a) {}
 
 ```typescript
 // 自动推断 x 为 number
-let x = 1;
+let x = 1
 // 不能将类型"a" 分配给类型"number"
-x = 'a';
+x = 'a'
 
 // 函数参数类型、函数返回值会根据对应的默认值和返回值进行自动推断
-function fn(a = 1) {return a * a}
+function fn(a = 1) {
+	return a * a
+}
 ```
 
 （6）类型断言
@@ -784,19 +799,19 @@ function fn(a = 1) {return a * a}
 有的时候，我们可能标注一个更加精确的类型（缩小类型标注范围），比如：
 
 ```typescript
-let img = document.querySelector('#img');
+let img = document.querySelector('#img')
 ```
 
 我们可以看到 img 的类型为 Element，而 Element 类型其实只是元素类型的通用类型，如果我们去访问 src 这个属性是有问题的，我们需要把它的类型标注得更为精确：HTMLImageElement 类型，这个时候，我们就可以使用类型断言，它类似于一种 类型转换：
 
 ```typescript
-let img = <HTMLImageElement> document.querySelector('#img');
+let img = <HTMLImageElement>document.querySelector('#img')
 ```
 
 或者
 
 ```typescript
-let image = document.querySelector('#img') as HTMLImageElement;
+let image = document.querySelector('#img') as HTMLImageElement
 ```
 
 注意： 断言只是一种预判，并不会数据本身产生实际的作用，即：类似转换，但并非真的转换了
@@ -806,6 +821,7 @@ let image = document.querySelector('#img') as HTMLImageElement;
 （1）函数的标注
 
 一个函数的标注
+
 - 参数
 - 返回值
 
@@ -829,14 +845,12 @@ let fn: ICallback = function(a) {};
 通过参数名后面添加 `?` 来标注该参数可选的
 
 ```typescript
-let div = document.querySelector('div');
-function css(el: HTMLElement, attr: string, val?: string) {
-
-}
+let div = document.querySelector('div')
+function css(el: HTMLElement, attr: string, val?: string) {}
 // 设置
-div && css( div, 'width', '100px' );
+div && css(div, 'width', '100px')
 // 获取
-div && css( div, 'width' );
+div && css(div, 'width')
 ```
 
 2、默认参数
@@ -867,18 +881,18 @@ sort([1,2,3], 'abc');
 
 ```typescript
 interface IObj {
-    [key: string]: any;
+	[key: string]: any
 }
 function merge(target: IObj, ...others: Array<IObj>) {
-    return others.reduce( (prev, currnet) => {
-        prev = Object.assign(prev, currnet);
-        return prev
-    }, target );
+	return others.reduce((prev, currnet) => {
+		prev = Object.assign(prev, currnet)
+		return prev
+	}, target)
 }
-let newObj = merge({x: 1}, {y: 2}, {z: 3})
+let newObj = merge({ x: 1 }, { y: 2 }, { z: 3 })
 ```
 
-（2）函数中的this
+（2）函数中的 this
 
 无论是 `javascript` 还是 `TypeScript`，函数中的 `this` 都是我们需要关心的，那函数中的 `this` 的类型该如何进行标注呢？
 
@@ -892,24 +906,24 @@ let newObj = merge({x: 1}, {y: 2}, {z: 3})
 
 ```typescript
 interface T {
-    a: number;
-    fn: (x: number) => void
+	a: number
+	fn: (x: number) => void
 }
 
 let obj1: T = {
-    a: 1,
-    fn(x: number) {
-        // any类型
-        console.log(this);
-    }
+	a: 1,
+	fn(x: number) {
+		// any类型
+		console.log(this)
+	},
 }
 
 let obj2: T = {
-    a: 1,
-    fn(this: T, x: number) {
-        // 通过第一个参数位标注 this 的类型，它对实际参数不会有影响
-        console.log(this)
-    }
+	a: 1,
+	fn(this: T, x: number) {
+		// 通过第一个参数位标注 this 的类型，它对实际参数不会有影响
+		console.log(this)
+	},
 }
 obj2.fn(1)
 ```
@@ -920,18 +934,18 @@ obj2.fn(1)
 
 ```typescript
 interface T {
-    a: number;
-    fn: (x: number) => void;
+	a: number
+	fn: (x: number) => void
 }
 
 let obj2: T = {
-    a: 1,
-    fn(this: T, x: number) {
-        return () => {
-            // this T
-            console.log(this)
-        }
-    }
+	a: 1,
+	fn(this: T, x: number) {
+		return () => {
+			// this T
+			console.log(this)
+		}
+	},
 }
 ```
 
@@ -940,27 +954,31 @@ let obj2: T = {
 有的时候，同一个函数会接收不同类型的参数返回不同类型的返回值，我们可以使用函数重载来实现，通过下面的例子体会一下函数重载
 
 ```typescript
-function showOrHide(el: HTMLElement, attr: 'display' | 'opacity', value: 'block' | 'none' | number) {
-    // ...
+function showOrHide(
+	el: HTMLElement,
+	attr: 'display' | 'opacity',
+	value: 'block' | 'none' | number,
+) {
+	// ...
 }
 
-let div = document.querySelector('div');
+let div = document.querySelector('div')
 
 if (div) {
-    showOrHide( div, 'display', 'none' );
-    showOrHide( div, 'opacity', 1 );
-    // error，这里是有问题，虽然通过联合类型能够处理同时接收不同类型的参数，但是多个参数之间是一种组合的模式，我们需要的应该是一种对应的关系
-    showOrHide( div, 'display', 1 );
+	showOrHide(div, 'display', 'none')
+	showOrHide(div, 'opacity', 1)
+	// error，这里是有问题，虽然通过联合类型能够处理同时接收不同类型的参数，但是多个参数之间是一种组合的模式，我们需要的应该是一种对应的关系
+	showOrHide(div, 'display', 1)
 }
 ```
 
 看一下函数重载
 
 ```typescript
-function showOrHide(el: HTMLElement, attr: 'display', value: 'block' | 'none');
-function showOrHide(el: HTMLElement, attr: 'opacity', value: number);
+function showOrHide(el: HTMLElement, attr: 'display', value: 'block' | 'none')
+function showOrHide(el: HTMLElement, attr: 'opacity', value: number)
 function showOrHide(el: HTMLElement, attr: string, value: any) {
-    el.style[attr] = value;
+	el.style[attr] = value
 }
 ```
 
@@ -968,31 +986,31 @@ function showOrHide(el: HTMLElement, attr: string, value: any) {
 
 ```typescript
 interface PlainObject {
-    [key: string]: string | number;
+	[key: string]: string | number
 }
 
-function css(el: HTMLElement, attr: PlainObject);
-function css(el: HTMLElement, attr: string, value: string | number);
+function css(el: HTMLElement, attr: PlainObject)
+function css(el: HTMLElement, attr: string, value: string | number)
 function css(el: HTMLElement, attr: any, value?: any) {
-    if(typeof attr === 'string' && value) {
-        el.style[attr] = value;
-    }
-    if(typeof attr === 'object') {
-        for(let key in attr) {
-            el.style[attr] = attr[key];
-        }
-    }
+	if (typeof attr === 'string' && value) {
+		el.style[attr] = value
+	}
+	if (typeof attr === 'object') {
+		for (let key in attr) {
+			el.style[attr] = attr[key]
+		}
+	}
 }
 
-let div = document.querySelector('div');
+let div = document.querySelector('div')
 if (div) {
-    css( div, 'width', '100px' );
-    css( div, {
-        width: '100px'
-    } )
+	css(div, 'width', '100px')
+	css(div, {
+		width: '100px',
+	})
 
-    // error，如果不使用重载，这里就会有问题了
-    css(div, 'width')
+	// error，如果不使用重载，这里就会有问题了
+	css(div, 'width')
 }
 ```
 
@@ -1023,7 +1041,7 @@ if (div) {
 ```javascript
 // 通常类的名称我们会使用 大驼峰命名， 规则，也就是（单词）首字母大写
 class User {
-    // 类的特征都定义在 {} 内部
+	// 类的特征都定义在 {} 内部
 }
 ```
 
@@ -1035,11 +1053,11 @@ class User {
 
 ```javascript
 class User {
-    constructor() {
-        console.log('实例化...')
-    }
+	constructor() {
+		console.log('实例化...')
+	}
 }
-let user1 = new User;
+let user1 = new User()
 ```
 
 - 默认情况下，构造函数是一个空函数
@@ -1054,21 +1072,21 @@ let user1 = new User;
 
 ```javascript
 class User {
-    id: number;
-    username: string;
+	id: number
+	username: string
 
-    constructor(id: number, username: string) {
-        this.id = id;
-        this.username = username;
-    }
+	constructor(id: number, username: string) {
+		this.id = id
+		this.username = username
+	}
 
-    postArticle(title: string, content: string): void {
-        console.log(`发表了一篇文章：${title}`)
-    }
+	postArticle(title: string, content: string): void {
+		console.log(`发表了一篇文章：${title}`)
+	}
 }
 
-let user1 = new User(1, 'lin');
-let user2 = new User(1, 'li');
+let user1 = new User(1, 'lin')
+let user2 = new User(1, 'li')
 ```
 
 5、this 关键字
@@ -1077,13 +1095,13 @@ let user2 = new User(1, 'li');
 
 ```typescript
 class User {
-    id: number;
-    username: string;
+	id: number
+	username: string
 
-    postArticle(title: string, content: string): void {
-        // 在类的内部可以通过 this 来访问成员属性和方法
-        console.log(`${this.username} 发表了一篇文章:${title}`)
-    }
+	postArticle(title: string, content: string): void {
+		// 在类的内部可以通过 this 来访问成员属性和方法
+		console.log(`${this.username} 发表了一篇文章:${title}`)
+	}
 }
 ```
 
@@ -1095,20 +1113,17 @@ class User {
 
 ```typescript
 class User {
-    // id: number;
-    // username: string;
+	// id: number;
+	// username: string;
 
-    constructor(
-        public id: number,
-        public username: string
-    ) {
-        // this.id = id;
-        // this.username = username;
-    }
+	constructor(public id: number, public username: string) {
+		// this.id = id;
+		// this.username = username;
+	}
 
-    postArticle(title: string, content: string) {
-        console.log(this.username, '这是一遍文章', title, content);
-    }
+	postArticle(title: string, content: string) {
+		console.log(this.username, '这是一遍文章', title, content)
+	}
 }
 ```
 
@@ -1117,9 +1132,7 @@ class User {
 在 `ts` 中，也是通过 `extends` 关键字类实现类的继承
 
 ```javascript
-class VIP extends User {
-
-}
+class VIP extends User {}
 ```
 
 （3）super 关键字
@@ -1134,24 +1147,18 @@ class VIP extends User {
 
 ```typescript
 class VIP extends User {
+	constructor(id: number, username: string, public score = 0) {
+		super(id, username)
+	}
 
-    constructor(
-        id: number,
-        username: string,
-        public score = 0
-    ) {
-        super(id, username)
-    }   
-
-    postAttrachment(file: string): void {
-        console.log(`${this.username} 上传了一个附件；${file}`)
-    }
-
+	postAttrachment(file: string): void {
+		console.log(`${this.username} 上传了一个附件；${file}`)
+	}
 }
 
-let vip1 = new VIP(1, 'lin');
-vip1.postArticle('标题', '内容');
-vip1.postAttrachment('1.png');
+let vip1 = new VIP(1, 'lin')
+vip1.postArticle('标题', '内容')
+vip1.postAttrachment('1.png')
 ```
 
 （4）方法的重写与重载
@@ -1160,35 +1167,30 @@ vip1.postAttrachment('1.png');
 
 ```typescript
 class VIP extends User {
+	constructor(id: number, username: string, public score = 0) {
+		super(id, username)
+	}
 
-    constructor(
-        id: number,
-        username: string,
-        public score = 0
-    ) {
-        super(id, username)
-    }
+	// 参数个数，参数类型不同: 重载
+	postArticle(title: string, content: string): void
+	postArticle(title: string, content: string, file: string): void
+	postArticle(title: string, content: string, file?: stringj): void {
+		super.postArticle(title, content)
 
-    // 参数个数，参数类型不同: 重载
-    postArticle(title: string, content: string): void;
-    postArticle(title: string, content: string, file: string): void;
-    postArticle(title: string, content: string, file?: stringj): void {
-        super.postArticle(title, content);
+		if (file) {
+			this.postAttachment(file)
+		}
+	}
 
-        if(file) {
-            this.postAttachment(file);
-        }
-    }
-
-    postAttachment(file: string): void {
-        console.log(`${this.username} 上传了一个附件: ${file}`)
-    }
+	postAttachment(file: string): void {
+		console.log(`${this.username} 上传了一个附件: ${file}`)
+	}
 }
 
 // 使用场景
-let vip1 = new VIP(1, 'lin');
-vip1.postArticle('标题', '内容');
-vip1.postArticle('标题', '内容', '1.png');
+let vip1 = new VIP(1, 'lin')
+vip1.postArticle('标题', '内容')
+vip1.postArticle('标题', '内容', '1.png')
 ```
 
 （5）修饰符
@@ -1207,7 +1209,6 @@ vip1.postArticle('标题', '内容', '1.png');
 - 自身
 - 子类
 - 类外
-
 
 2、protected 修饰符
 
@@ -1232,20 +1233,18 @@ vip1.postArticle('标题', '内容', '1.png');
 
 ```typescript
 class User {
+	constructor(
+		// 可以访问，但是一旦确定不能修改
+		readonly id: number,
+		// 可以访问，但是不能外部修改
+		protected username: string,
+		// 外部包括子类不能访问，也不可修改
+		private password: string,
+	) {
+		// ...
+	}
 
-    constructor(
-        // 可以访问，但是一旦确定不能修改
-        readonly id: number,
-        // 可以访问，但是不能外部修改
-        protected username: string,
-        // 外部包括子类不能访问，也不可修改
-        private password: string
-
-    ) {
-        // ...
-    }
-
-    // ...
+	// ...
 }
 
 let user1 = new User(1, 'lin', '123')
@@ -1303,33 +1302,38 @@ class User {
 - 如果一个成员方法中没有使用或依赖 `this`，那么该方法就是静态的
 
 ```typescript
-type IAllowFileTypeList = 'png' | 'gif' | 'jpg' | 'jpeg'| 'webp';
+type IAllowFileTypeList = 'png' | 'gif' | 'jpg' | 'jpeg' | 'webp'
 
 class VIP extends User {
-    
-    // static 必须在 readonly 之前
-    static readonly ALLOW_FILE_TYPE_LIST: Array<IAllowFileTypeList> = ['png', 'gif', 'jpg', 'jpeg', 'webp'];
+	// static 必须在 readonly 之前
+	static readonly ALLOW_FILE_TYPE_LIST: Array<IAllowFileTypeList> = [
+		'png',
+		'gif',
+		'jpg',
+		'jpeg',
+		'webp',
+	]
 
-    constructor(
-        id: number,
-        username: string,
-        private _allowFileTypes: array<iallow_file_type_list>
-    ) {
-        super(id, username);
-    }
+	constructor(
+		id: number,
+		username: string,
+		private _allowFileTypes: array<iallow_file_type_list>,
+	) {
+		super(id, username)
+	}
 
-    static  info(): void {
-        // 类的静态成员都是使用 类名.静态成员 来访问
-        // VIP 这种类型的用户允许上传的所有类型有哪一些
-        console.log(VIP.ALLOW_FILE_TYPE_LIST);
-        // 当前这个 vip 用户允许上传类型有哪一些
-        // console.log(this._allowFileType);
-    }
+	static info(): void {
+		// 类的静态成员都是使用 类名.静态成员 来访问
+		// VIP 这种类型的用户允许上传的所有类型有哪一些
+		console.log(VIP.ALLOW_FILE_TYPE_LIST)
+		// 当前这个 vip 用户允许上传类型有哪一些
+		// console.log(this._allowFileType);
+	}
 }
 
-let user1 = new User(1, 'lin', ['png', 'gif']);
-User.ALLOW_FILE_TYPE_LIST;
-User.info();
+let user1 = new User(1, 'lin', ['png', 'gif'])
+User.ALLOW_FILE_TYPE_LIST
+User.info()
 ```
 
 （8）抽象类
@@ -1340,16 +1344,14 @@ User.info();
 
 ```tsx
 class MyComponent extends Component {
+	constructor(props) {
+		super(props)
+		this.state = {}
+	}
 
-    constructor(props) {
-        super(props);
-        this.state = {}
-    }
-
-    render() {
-        // ...
-    }
-
+	render() {
+		// ...
+	}
 }
 ```
 
@@ -1361,46 +1363,39 @@ class MyComponent extends Component {
 
 ```tsx
 class Component<T1, T2> {
+	public state: T2
 
-    public state: T2;
+	construtor(public props: T1) {
+		// ...
+	}
 
-    construtor(
-        public props: T1
-    ) {
-        // ...     
-    } 
-
-    render(): string {
-        // ... 不知道做点才好， 但是为了避免子类没有 render 方法而导致组件解析错误，父类就用一个默认的 render 去处理可能会出现错误的
-    }
-
+	render(): string {
+		// ... 不知道做点才好， 但是为了避免子类没有 render 方法而导致组件解析错误，父类就用一个默认的 render 去处理可能会出现错误的
+	}
 }
 
 interface IMyComponentProps {
-    title: string;
-}   
+	title: string
+}
 
 interface IMyComponentState {
-    val: number
+	val: number
 }
 
 class MyComponent extends Component<IMyComponentProps, IMyComponentProps> {
+	constructor(props: IMyComponentProps) {
+		super(props)
 
-    constructor(
-        props: IMyComponentProps
-    ) {
-        super(props);
+		this.state = {
+			val: 1,
+		}
+	}
 
-        this.state = {
-            val: 1
-        }
-    }
-
-    render() {
-        this.props.title;
-        this.state.val;
-        return `<div>组件</div>`
-    }
+	render() {
+		this.props.title
+		this.state.val
+		return `<div>组件</div>`
+	}
 }
 ```
 
@@ -1412,16 +1407,13 @@ class MyComponent extends Component<IMyComponentProps, IMyComponentProps> {
 
 ```tsx
 abstract class Component<T1, T2> {
-    
-    public state: T2;
+	public state: T2
 
-    constructor(
-        public props: T1
-    ) {
-        // ...
-    }
+	constructor(public props: T1) {
+		// ...
+	}
 
-    public abstract render(): string;
+	public abstract render(): string
 }
 ```
 
@@ -1431,7 +1423,7 @@ abstract class Component<T1, T2> {
 
 使用注意事项：
 
-> - abstract 修饰的方法不能有方法体 
+> - abstract 修饰的方法不能有方法体
 > - 如果一个类有抽象方法，那么该类也必须为抽象的
 > - 如果一个类是抽象的，那么就不能使用 new 进行实例化（因为抽象类表明该类有未实现的方法，所以不允许实例化）
 
@@ -1445,7 +1437,7 @@ abstract class Component<T1, T2> {
 - `TypeScript` 只支持单继承，即一个子类只能有个父类，但是一个类可以实现多个接口
 - 接口不能有实现，抽象类可以
 
-（1）implements 
+（1）implements
 
 在一个类中使用接口并不是使用 `extends` 关键字，而是 `implements`
 
@@ -1455,31 +1447,31 @@ abstract class Component<T1, T2> {
 
 ```typescript
 interface ILog {
-    getInfo(): string
+	getInfo(): string
 }
 
-class MyComponent extends Component<IMyComponentProps, IMyComponentState> implements ILog {
+class MyComponent
+	extends Component<IMyComponentProps, IMyComponentState>
+	implements ILog
+{
+	constructor(props: IMyComponentProps) {
+		super(props)
 
-    constructor(
-        props: IMyComponentProps
-    ) {
-        super(props);
+		this.state = {
+			val: 1,
+		}
+	}
 
-        this.state = {
-            val: 1
-        }
-    }
+	render() {
+		this.props.title
+		this.state.val
 
-    render() {
-        this.props.title;
-        this.state.val;
+		return `<div>组件</div>`
+	}
 
-        return `<div>组件</div>`
-    }
-
-    getInfo() {
-        return `组件：MyComponent, props: ${this.props}, state: ${this.state}`
-    }
+	getInfo() {
+		return `组件：MyComponent, props: ${this.props}, state: ${this.state}`
+	}
 }
 ```
 
@@ -1487,36 +1479,38 @@ class MyComponent extends Component<IMyComponentProps, IMyComponentState> implem
 
 ```typescript
 interface ILog {
-    getInfo(): string;
+	getInfo(): string
 }
 
 interface IStorage {
-    save(data: string): void;
+	save(data: string): void
 }
 
-class MyComponent extends Component<IMyComponentProps, IMyComponentState> implements ILog, IStorage {
+class MyComponent
+	extends Component<IMyComponentProps, IMyComponentState>
+	implements ILog, IStorage
+{
+	constructor(props: IMyComponentProps) {
+		super(props)
 
-    constructor(props: IMyComponentProps) {
-        super(props);
+		this.state = {
+			val: 1,
+		}
+	}
 
-        this.state = {
-            val: 1
-        }
-    }
+	render() {
+		this.props.title
+		this.state.val
+		return `<div>组件</div>`
+	}
 
-    render() {
-        this.props.title;
-        this.state.val;
-        return `<div>组件</div>`
-    }
+	getInfo(): string {
+		return `组件：MyComponent, props: ${this.props}, state: ${this.state}`
+	}
 
-    getInfo(): string {
-        return `组件：MyComponent, props: ${this.props}, state: ${this.state}`; 
-    }
-
-    save(data, string) {
-        // ...存储 
-    }
+	save(data, string) {
+		// ...存储
+	}
 }
 ```
 
@@ -1524,11 +1518,11 @@ class MyComponent extends Component<IMyComponentProps, IMyComponentState> implem
 
 ```typescript
 interface ILog {
-    getInfo(): string;
+	getInfo(): string
 }
 
 interface IStorage extends ILog {
-    save(data: string): void; 
+	save(data: string): void
 }
 ```
 
@@ -1549,15 +1543,15 @@ interface IStorage extends ILog {
 
 ```typescript
 function fn(a: string | number) {
-    // error，不能保证 a 就是字符串
-    a.substring(1);
-    if (typeof a === 'string') {
-        // ok
-        a.substring(1);
-    } else {
-        // ok
-        a.toFixed(1);
-    }
+	// error，不能保证 a 就是字符串
+	a.substring(1)
+	if (typeof a === 'string') {
+		// ok
+		a.substring(1)
+	} else {
+		// ok
+		a.toFixed(1)
+	}
 }
 ```
 
@@ -1567,11 +1561,11 @@ function fn(a: string | number) {
 
 ```typescript
 function fn(a: Date | Array<any>) {
-    if (a instanceof Array) {
-        a.push(1);
-    } else {
-        a.getFullYear();
-    }
+	if (a instanceof Array) {
+		a.push(1)
+	} else {
+		a.getFullYear()
+	}
 }
 ```
 
@@ -1581,27 +1575,27 @@ function fn(a: Date | Array<any>) {
 
 ```typescript
 interface IA {
-    x: string;
-    y: string;
+	x: string
+	y: string
 }
 
 interface IB {
-    a: string;
-    b: string;
+	a: string
+	b: string
 }
 
 function fn(arg: IA | IB) {
-    if ('x' in arg) {
-        // ok
-        arg.x;
-        // error
-        arg.a;
-    } else {
-        // ok
-        arg.a;
-        // error
-        arg.x;
-    }
+	if ('x' in arg) {
+		// ok
+		arg.x
+		// error
+		arg.a
+	} else {
+		// ok
+		arg.a
+		// error
+		arg.x
+	}
 }
 ```
 
@@ -1611,29 +1605,29 @@ function fn(arg: IA | IB) {
 
 ```typescript
 interface IA {
-    type: 'IA';
-    x: string;
-    y: string;
+	type: 'IA'
+	x: string
+	y: string
 }
 
 interface IB {
-    type: 'IB',
-    a: string;
-    b: string;
+	type: 'IB'
+	a: string
+	b: string
 }
 
 function fn(arg: IA | IB) {
-    if (arg.type === 'IA') {
-        // ok
-        arg.x;
-        // error
-        arg.a;
-    } else {
-        // ok
-        arg.a;
-        // error
-        arg.x;
-    }
+	if (arg.type === 'IA') {
+		// ok
+		arg.x
+		// error
+		arg.a
+	} else {
+		// ok
+		arg.a
+		// error
+		arg.x
+	}
 }
 ```
 
@@ -1643,17 +1637,17 @@ function fn(arg: IA | IB) {
 
 ```typescript
 function canEach(data: any): data is Element[] | Nodelist {
-    return data.forEach !== undefined;
+	return data.forEach !== undefined
 }
 
 function fn2(elements: Element[] | NodeList | Element) {
-    if (canEach(elements)) {
-        elements.forEach((el: Element) => {
-            el.classList.add('box');
-        })
-    } else {
-        elements.classList.add('box');
-    }
+	if (canEach(elements)) {
+		elements.forEach((el: Element) => {
+			el.classList.add('box')
+		})
+	} else {
+		elements.classList.add('box')
+	}
 }
 ```
 
@@ -1671,15 +1665,15 @@ function fn2(elements: Element[] | NodeList | Element) {
 - 捕获数据的类型
 
 ```typescript
-let str1 = 'lin';
+let str1 = 'lin'
 
 // 如果是 let , 把 string 作为值
-let t = typeof str1;
+let t = typeof str1
 
 // 如果是 type，把 string 作为类型
-type myType = typeof str1;
+type myType = typeof str1
 
-let str2: myType = 'li';
+let str2: myType = 'li'
 let str2: typeof str1 = 'qi'
 ```
 
@@ -1688,21 +1682,21 @@ let str2: typeof str1 = 'qi'
 获取类型的所有 `key` 的集合
 
 ```typescript
-interface  Person {
-    name: string;
-    age: number;
-};
+interface Person {
+	name: string
+	age: number
+}
 
 // 等同：type personKeys = 'name' | 'age'
-type personKeys = keyof Person;
+type personKeys = keyof Person
 
 let p1 = {
-    name: 'lin',
-    age: 18
+	name: 'lin',
+	age: 18,
 }
 
 function getPersonVal(k: personKeys) {
-    return p1[key];
+	return p1[key]
 }
 
 /**
@@ -1712,8 +1706,8 @@ function getPersonVal(k: personKeys) {
  * }
  */
 
-getPersonVal('name'); // 正确
-getPersonVal('gender'); // 错误
+getPersonVal('name') // 正确
+getPersonVal('gender') // 错误
 ```
 
 （3）in
@@ -1722,13 +1716,13 @@ getPersonVal('gender'); // 错误
 
 ```typescript
 interface Person {
-    name: string;
-    age: number;
+	name: string
+	age: number
 }
 
-type personKey = keyof Person;
+type personKey = keyof Person
 type newPerson = {
-    [k in personKeys]: number;
+	[k in personKeys]: number
 }
 /**
  * 等同：[k in 'name' | 'age']: number;
@@ -1737,8 +1731,8 @@ type newPerson = {
  */
 
 type newPerson = {
-    name: number;
-    age: number;
+	name: number
+	age: number
 }
 ```
 
@@ -1750,20 +1744,20 @@ type newPerson = {
 
 ```typescript
 class Person {
-    name: string;
-    age: number;
+	name: string
+	age: number
 }
 
 class Cat {
-    name: string;
-    age: number;
+	name: string
+	age: number
 }
 
 function fn(p: Person) {
-    p.name;
+	p.name
 }
 
-let xiao = new Cat();
+let xiao = new Cat()
 // ok 因为 Cat 类型的结构与 Person 类型结构相似，所以它们是兼容的
 fn(xiao)
 ```
@@ -1776,19 +1770,19 @@ fn(xiao)
 
 ```typescript
 function getVal(obj, k) {
-    return obj[k];
+	return obj[k]
 }
 ```
 
 ```
-上面的函数，想实现的是获取一个对象指定的 k 所对应的值，那么实际使用的时候，obj的类型是不确定的，自然 k 的取值范围也是不确定的，它需要我们在具体调用的时候才能确定，这个时候这种定义过程不确定类型的需求就可以通过泛型来解决 
+上面的函数，想实现的是获取一个对象指定的 k 所对应的值，那么实际使用的时候，obj的类型是不确定的，自然 k 的取值范围也是不确定的，它需要我们在具体调用的时候才能确定，这个时候这种定义过程不确定类型的需求就可以通过泛型来解决
 ```
 
 ### 泛型的使用 - 函数
 
 ```typescript
 function getVal<T>(obj: T, k: keyof T) {
-    return obj[k];
+	return obj[k]
 }
 ```
 
@@ -1800,48 +1794,42 @@ function getVal<T>(obj: T, k: keyof T) {
 
 ```typescript
 abstract class Component<T1, T2> {
-    
-    props: T1;
-    state: T2;
+	props: T1
+	state: T2
 
-    constructor(
-        props: T1
-    ) {
-        this.props = props;
-    }
+	constructor(props: T1) {
+		this.props = props
+	}
 
-    abstract render(): string;
-
+	abstract render(): string
 }
 
 interface IMyComponentProps {
-    val: number;
+	val: number
 }
 
 interface IMyComponentState {
-    x: number;
+	x: number
 }
 
 class MyComponent extends Component<IMyComponentProps, IMyComponentState> {
+	constructor(props: IMyComponentProps) {
+		super(props)
 
-    constructor(props: IMyComponentProps) {
-        super(props);
+		this.state = {
+			x: 1,
+		}
+	}
 
-        this.state = {
-            x: 1
-        }
-    }
-
-    render() {
-        this.props.val;
-        this.state.x;
-        return `<myComponent />`;
-    }
-
+	render() {
+		this.props.val
+		this.state.x
+		return `<myComponent />`
+	}
 }
 
-let myComponent = new MyComponent({val: 1});
-myComponent.render();
+let myComponent = new MyComponent({ val: 1 })
+myComponent.render()
 ```
 
 ### 泛型接口
@@ -1852,9 +1840,9 @@ myComponent.render();
 
 ```typescript
 interface IResponseData {
-    code: number;
-    message?: string;
-    data: any;
+	code: number
+	message?: string
+	data: any
 }
 ```
 
@@ -1862,11 +1850,13 @@ interface IResponseData {
 
 ```typescript
 function getData(url: string) {
-    return fetch(url).then(res => {
-        return res.json();
-    }).then( (data: IResponseData ) => {
-        return data;
-    } )
+	return fetch(url)
+		.then((res) => {
+			return res.json()
+		})
+		.then((data: IResponseData) => {
+			return data
+		})
 }
 ```
 
@@ -1876,19 +1866,21 @@ function getData(url: string) {
 
 ```typescript
 interface IResponseData<T> {
-    code: number;
-    message?: string;
-    data: T;
+	code: number
+	message?: string
+	data: T
 }
 ```
 
 ```typescript
 function getData<U>(url: string) {
-    return fetch(url).then( res => {
-        return res.json();
-    }).then( (data: IResponseData<U>) => {
-        return data;
-    })
+	return fetch(url)
+		.then((res) => {
+			return res.json()
+		})
+		.then((data: IResponseData<U>) => {
+			return data
+		})
 }
 ```
 
@@ -1897,37 +1889,37 @@ function getData<U>(url: string) {
 ```typescript
 // 用户接口
 interface IResponseUserData {
-    id: number;
-    username: string;
-    email: string;
+	id: number
+	username: string
+	email: string
 }
 
 // 文章接口
 interface IResponseArticleData {
-    id: number;
-    title: string;
-    author: IResponseUserData;
+	id: number
+	title: string
+	author: IResponseUserData
 }
 ```
 
 调用具体代码
 
 ```typescript
-(async function() {
-    let user = await getData<IResponseUserData>('/user');
-    if (user.code === 1) {
-        console.log(user.message);
-    } else {
-        console.log(user.data.username);
-    }
+;(async function () {
+	let user = await getData<IResponseUserData>('/user')
+	if (user.code === 1) {
+		console.log(user.message)
+	} else {
+		console.log(user.data.username)
+	}
 
-    let article = await getData<IResponseArticleData>('/article');
-    if (article.code === 1) {
-        console.log(article.message);
-    } else {
-        console.log(article.data.id);
-        console.log(article.data.author.username);
-    }
+	let article = await getData<IResponseArticleData>('/article')
+	if (article.code === 1) {
+		console.log(article.message)
+	} else {
+		console.log(article.data.id)
+		console.log(article.data.author.username)
+	}
 })()
 ```
 
@@ -1972,17 +1964,17 @@ interface IResponseArticleData {
 
 ```javascript
 // a.js
-let a = 1;
-let b = 2;
+let a = 1
+let b = 2
 
 module.exports = {
-    x: a,
-    y: b
+	x: a,
+	y: b,
 }
 
 // or
-exports.x = a;
-exports.y = b;
+exports.x = a
+exports.y = b
 ```
 
 - 导入外部模块数据
@@ -1991,9 +1983,9 @@ exports.y = b;
 
 ```javascript
 // b.js
-let a = require('./a');
-a.x;
-a.y;
+let a = require('./a')
+a.x
+a.y
 ```
 
 ## 基于浏览器的模块化
@@ -2016,7 +2008,10 @@ a.y;
 
 ```html
 1.html
-<script data-main="js/a" src="https://cdn.bootcss.com/require.js/2.3.6/require.min.js"></script>
+<script
+	data-main="js/a"
+	src="https://cdn.bootcss.com/require.js/2.3.6/require.min.js"
+></script>
 ```
 
 - 独立模块作用域
@@ -2025,8 +2020,8 @@ a.y;
 
 ```javascript
 // b.js
-define(function() {
-    // 模块内部代码
+define(function () {
+	// 模块内部代码
 })
 ```
 
@@ -2036,14 +2031,14 @@ define(function() {
 
 ```javascript
 // b.js
-define(function() {
-    let a = 1;
-    let b = 2;
+define(function () {
+	let a = 1
+	let b = 2
 
-    return {
-        x: a,
-        y: b
-    }
+	return {
+		x: a,
+		y: b,
+	}
 })
 ```
 
@@ -2053,8 +2048,8 @@ define(function() {
 
 ```javascript
 // a.js
-define(['./b'], function(b) {
-    console.log(b);
+define(['./b'], function (b) {
+	console.log(b)
 })
 ```
 
@@ -2066,14 +2061,14 @@ define(['./b'], function(b) {
 
 ```javascript
 // b.js
-define(function(require, exports, module) {
-    let a = 1;
-    let b = 2;
+define(function (require, exports, module) {
+	let a = 1
+	let b = 2
 
-    module.exports = {
-        x: a,
-        y: b
-    }
+	module.exports = {
+		x: a,
+		y: b,
+	}
 })
 ```
 
@@ -2081,9 +2076,9 @@ define(function(require, exports, module) {
 
 ```javascript
 // a.js
-define(function(require, exports, module) {
-    let b = require('./b');
-    console.log(b);
+define(function (require, exports, module) {
+	let b = require('./b')
+	console.log(b)
 })
 ```
 
@@ -2092,27 +2087,27 @@ define(function(require, exports, module) {
 严格来说，`UMD` 并不属于一套模块规范，它主要用来处理 `CommonJS`、`ADM`、`CMD` 的差异兼容，是模块代码能在前面不同的模块环境下都能正常运行。随着 `Node.js` 的流行，前端和后端都可以基于 `JavaScript` 来进行开发，这个时候或多或少的会出现前后端使用相同代码的可能，特别是一些不依赖宿主环境（浏览器、服务器）的偏低层的代码。我们能实现一套代码多端适用（同构），其中在不同的模块化标准下使用也是需要解决问题，`UMD` 就是一种解决方式
 
 ```javascript
-(function (root, fectory) {
-    if (typeof module === 'object' && typeof module.exports === 'object') {
-        // Node, CommonJS-like
-        module.exports = fectory();
-    } else if (typeof define === 'function' && define.amd) {
-        // AMD 模块环境下
-        define(factory);
-    } else {
-        // 不能使用任何模块系统，直接挂在到全局
-        root.lin = factory();
-    }
-}(this, function(){
-    let a = 1;
-    let b = 2;
+;(function (root, fectory) {
+	if (typeof module === 'object' && typeof module.exports === 'object') {
+		// Node, CommonJS-like
+		module.exports = fectory()
+	} else if (typeof define === 'function' && define.amd) {
+		// AMD 模块环境下
+		define(factory)
+	} else {
+		// 不能使用任何模块系统，直接挂在到全局
+		root.lin = factory()
+	}
+})(this, function () {
+	let a = 1
+	let b = 2
 
-    // 模块导出数据
-    return {
-        x: a,
-        y: b
-    }
-}));
+	// 模块导出数据
+	return {
+		x: a,
+		y: b,
+	}
+})
 ```
 
 ## 模块化的大同世界
@@ -2182,13 +2177,10 @@ import defaultExport, { export [, [...]] } from 'module-name';
 ```
 
 ```javascript
-document.onclick = function() {
-
-    // import 必须放置在当前模块最开始加载
-    // import a from './a.js'
-
-    // console.log(m);
-
+document.onclick = function () {
+	// import 必须放置在当前模块最开始加载
+	// import a from './a.js'
+	// console.log(m);
 }
 ```
 
@@ -2200,15 +2192,14 @@ document.onclick = function() {
 
 ```javascript
 import('./a.js').then((a) => {
-    //...
-});
+	//...
+})
 
 // 也支持await
-let m = await import('./a.js');
+let m = await import('./a.js')
 ```
 
 > 通过 `import()` 方法导入返回的数据会被包装在一个对象中，即使是 `default` 也是如此
-
 
 （2）TypeScript 中的模块化
 
@@ -2231,8 +2222,8 @@ let m = await import('./a.js');
 
 ```typescript
 // a.ts
-let a1 = 100;
-let a2 = 200;
+let a1 = 100
+let a2 = 200
 ```
 
 ```typescript
@@ -2279,7 +2270,7 @@ lel a2 = 300;
 ```typescript
 // a1.ts
 export let obj = {
-    x: 1
+	x: 1,
 }
 ```
 
@@ -2306,7 +2297,7 @@ console.log(m1.obj.x)
 
 ```ts
 // a.js
-export default 100;
+export default 100
 // main.ts
 import a from './a.js'
 ```
@@ -2316,14 +2307,14 @@ import a from './a.js'
 在 `ESM` 中模块可以设置默认导出值
 
 ```typescript
-export default 'lin';
+export default 'lin'
 ```
 
 但是在 `CommonJS`、`AMD` 中是没有默认值设置的，它们导出的是一个对象 {`exports`}
 
 ```typescript
 module.exports.obj = {
-    x: 1000
+	x: 1000,
 }
 ```
 
@@ -2371,13 +2362,13 @@ resolveJSONModule
 
 ```json
 {
-    "name": 'lin',
-    "age": 18,
-    "gender": "男"
+	"name": "lin",
+	"age": 18,
+	"gender": "男"
 }
 ```
 
-**ts文件**
+**ts 文件**
 
 ```typescript
 import * as userData from './data.json'
@@ -2390,15 +2381,15 @@ console.log(userData)
 
 ```typescript
 namespace k1 {
-    let a = 10;
-    export var obj = {
-        a
-    }
+	let a = 10
+	export var obj = {
+		a,
+	}
 }
 
 namespace k2 {
-    let a = 20;
-    console.log(k1.obj)
+	let a = 20
+	console.log(k1.obj)
 }
 ```
 
@@ -2598,7 +2589,6 @@ console.log(v2);
 
 ### 装饰器
 
-
 `装饰器` 是一个函数，它可以通过 `@装饰器函数` 这种特殊的语法附加在 `类`、`方法`、`访问符`、`属性`、`参数` 上，对它们进行包装，然后返回一个包装后的目标对象（`类`、`方法`、`访问符`、`属性`、`参数`），装饰器工作在类的构建阶段，而不是使用阶段
 
 ```typescript
@@ -2636,29 +2626,131 @@ class Myclass {
 }
 ```
 
+### 类装饰器
 
+目标
 
+- 应用于类的构造函数
 
+参数
 
+- 第一个参数（也只有一个参数）
+  - 类的构造函数作为其唯一的参数
 
+### 方法装饰器
 
+目标
 
+- 应用于类的方法上
 
+参数
 
+- 第一个参数
 
+  - 静态方法：类的构造函数
+  - 实例方法：类的原型对象
 
+- 第二个参数
 
+  - 方法名称
 
+- 第三个参数
+  - 方法描述符对象
 
+### 属性装饰器
 
+目标
 
+- 应用于类的属性上面
 
+参数
 
+- 第一个参数
 
+  - 静态方法：类的构造函数
+  - 实例方法：类的原型对象
 
+- 第二个参数
 
+  - 属性名称
 
+- 第三个参数
+  - 方法描述符对象
 
+### 访问装饰器
 
+目标
 
+- 应用于类的访问器（getter、setter）上
 
+参数
+
+- 第一个参数
+
+  - 静态方法：类的构造函数
+  - 实例方法：类的原型对象
+
+- 第二个参数
+  - 方法描述符对象
+
+### 参数装饰器
+
+目标
+
+- 应用在参数上
+
+参数
+
+- 第一个参数
+
+  - 静态方法：类的构造函数
+  - 实例方法：类的原型对象
+
+- 第二个参数
+
+  - 方法名称
+
+- 第三个参数
+  - 参数在函数参数列表中的索引
+
+### 装饰器执行顺序
+
+- 实例装饰器
+
+属性 -> 访问符 -> 参数 -> 方法
+
+- 静态装饰器
+
+属性 -> 访问符 -> 参数 -> 方法
+
+- 类
+
+类
+
+## 装饰器工厂
+
+如果我们需要给装饰器执行过程中传入一些参数的时候，就可以使用装饰器工厂来实现
+
+```typescript
+// 装饰器函数
+function log(callback: Function) {
+	return function (
+		target: Function,
+		type: string,
+		descript: PropertyDescriptor,
+	) {
+		let value = descript.value
+
+		doscript.value = function (a: string, b: number) {
+			let result = value(a, b)
+			callback({
+				type,
+				a,
+				b,
+				result,
+			})
+			return result
+		}
+	}
+}
+```
