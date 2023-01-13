@@ -2753,6 +2753,157 @@ function log(callback: Function) {
 		}
 	}
 }
+
+// 原始类
+class M {
+	@log(function (result: any) {
+		console.log('日志', result)
+	})
+	static add(a: number, b: number) {
+		return a + b
+	}
+	@log(function (result: any) {
+		localStorage.setItem('log', JSON.stringify(result))
+	})
+	static sub(a: number, b: number) {
+		return a - b
+	}
+}
+
+let v1 = M.add(1, 2)
+console.log(v1)
+let v1 = M.sub(1, 2)
+console.log(v2)
 ```
 
+## 元数据
 
+在 `修饰符` 函数中，我们可以拿到 `类`、`方法`、`访问符`、`属性`、`参数` 的基本信息，如它们的名称，描述符 等，但是我们想获取更多信息就需要通过另外的方式进行：`元数据`
+
+**什么事元数据？**
+
+`元数据` : 用来描述数据的数据，在我们的程序中，`对象`、`类` 等都是数据，它们描述了某种数据，另外还有一种数据，它可以用来描述 `对象`、`类`，这些用来描述的数据就是 `元数据`
+
+> 比如一首歌曲本身就是一组数据，同时还有一组用来描述歌曲的歌手、格式、时长的数据，那么这组数据就是歌曲数据的元数据
+
+### 使用 `reflect-metadata`
+
+[https://www.npmjs.com/package/reflect-metadata](https://www.npmjs.com/package/reflect-metadata])
+
+首先，需要安装 `reflect-metadata`
+
+```bash
+npm install reflect-metadata
+```
+
+### 定义元数据
+
+我们可以 `类`、`方法` 等数据定义元数据
+
+- 元数据会被附加到指定的 `类`、`方法` 等数据之上，但是又不会影响 `类`、`方法` 本身的代码
+
+设置 `Reflect.defineMetadata(metadataKey, metadataValue, target, propertyKey)`
+
+- metadataKey: meta 数据的 key
+- metadataValue: meta 数据的 值
+- target: meta 数据附加的目标
+- propertyKey: 对应的 property Key
+
+调用方式
+
+- 通过 `Reflect.defineMetadata` 方法调用来添加 元数据
+- 通过 `@Reflect.metadata` 装饰器来添加 元数据
+
+```typescript
+import 'reflect-metadata'
+
+@Reflect.metadata('n', 1)
+class A {
+	@Reflect.metadata('n', 2)
+	public static method1() {}
+
+	@Reflect.metadata('n', 4)
+	public method2() {}
+}
+
+// or
+Reflect.defineMetadata('n', 1, A)
+Reflect.defineMetadata('n', 2, 'method1')
+
+let obj = new A()
+Reflect.defineMetadata('n', 3, obj)
+Reflect.defineMetadata('n', 3, obj, 'method2')
+
+console.log(Reflect.getMetadata('n', A))
+console.log(Reflect.getMetadata('n', A))
+```
+
+获取
+
+`Reflect.getMetadata(metadataKey, target, propertyKey)`
+
+参数的含义与 `defineMetadata` 对应
+
+### 使用元数据的 log 装饰器
+
+```typescript
+import 'reflect-metadata'
+
+function L(type = 'log') {
+	return function (target: any) {
+		Reflect.defineMetadata('type', type, target)
+	}
+}
+
+// 装饰器函数
+function log(callback: Function) {
+	return function (target: any, name: string, descriptor: PropertyDescript) {
+		let value = descriptor.value
+
+		let type = Reflect.getMetadata('type', target)
+
+		descriptor.value = function (a: number, b: number) {
+			let result = value(a, b)
+			if (type === 'log') {
+				console.log('日志', {
+					name,
+					a,
+					b,
+					result,
+				})
+			}
+
+			if (type === 'storage') {
+				localStorage.setItem(
+					'storageLog',
+					JSON.stringify({
+						name,
+						a,
+						b,
+						result,
+					}),
+				)
+			}
+
+			return result
+		}
+	}
+}
+
+// 原始类
+class M {
+	@log
+	static add(a: number, b: number) {
+		return a + b
+	}
+	@log
+	static sub(a: number, b: number) {
+		return a - b
+	}
+}
+
+let v1 = M.add(1, 2)
+console.log(v1)
+let v2 = M.sub(1, 2)
+console.log(v2)
+```
