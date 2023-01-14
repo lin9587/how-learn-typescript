@@ -2907,3 +2907,76 @@ console.log(v1)
 let v2 = M.sub(1, 2)
 console.log(v2)
 ```
+
+### 使用 emitDecoratorMetadata
+
+在 `tsconfig.json` 中有个配置 `emitDecoratorMetadata`，开启该特性，`typescript` 会在编译之后自动给 `类`、`方法`、`访问符`、`属性`、`参数` 添加如下几个元数据
+
+- design:type: 被装饰目标的类型
+
+  - 成员属性：属性的标注类型
+  - 成员方法：`Function` 类型
+
+- design:paramtypes
+
+  - 成员方法：方法形参列表的标注类型
+  - 类：构造函数形参列表的标注类型
+
+- design:returntype
+  - 成员方法：函数返回值的标注类型
+
+```typescript
+import 'reflect-metadata'
+
+function n(target: any) {}
+
+function f(name: string) {
+	return function (target: any, propertyKey: string, descriptor: any) {
+		console.log(
+			'design type',
+			Reflect.getMetadata('design:type', target, propertyKey),
+		)
+		console.log(
+			'params type',
+			Reflect.getMetadata('design:paramtypes', target, propertyKey),
+		)
+		console.log(
+			'return type',
+			Reflect.getMetadata('design:returntype', target, propertyKey),
+		)
+	}
+}
+
+function m(target: any, propertyKey: string) {}
+
+@n
+class B {
+	@m
+	name: string
+
+	constructor(a: string) {}
+
+	@f('')
+	method1(a: string, b: string) {
+		return 'a'
+	}
+}
+```
+
+编译后
+
+```javascript
+__decorate([m, __metadata('design:type', String)], B.prototype, 'name', void 0)
+__decorate(
+	[
+		f(''),
+		__metadata('design:type', Function),
+		__metadata('design:paramtypes', [String, String]),
+		__metadata('design:returntype', void 0),
+	],
+	B.prototype,
+	'method1',
+	null,
+)
+B = __decorate([n, __metadata('design:paramtypes', [String]), B])
+```
